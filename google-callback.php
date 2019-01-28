@@ -23,12 +23,6 @@ $first_name = $userinfo["givenName"];
 $last_name = $userinfo["familyName"];
 $picture = $userinfo["picture"];
 $email = $userinfo["email"];
-
-$_SESSION["first_name"] = $first_name;
-$_SESSION["last_name"] = $last_name;
-$_SESSION["picture"] = $picture;
-$_SESSION["email"] = $email;
-
 $verificationCode = "default";
 $password = "default";
 
@@ -46,16 +40,20 @@ if ($num > 0)
 }
 else
 {
-    $sql = "INSERT INTO users (name, surname, email, username, password, token, picture) VALUES (:first_name, :last_name, :email, :username, :passwd, :token, :picture)";
+    $sql = "INSERT INTO users (name, surname, email, username, password, token, picture, oauth) VALUES (:first_name, :last_name, :email, :username, :passwd, :token, :picture, :oauth)";
     $coolpwd = hash('whirlpool', $password);
+    $code = rand(100000, 199999);
+    $username = "user" . $code;
+    $oauth = 1;
     $stmt= $db->prepare($sql);
     $stmt->bindParam(':first_name', $first_name);
     $stmt->bindParam('last_name', $last_name);
     $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':username', $first_name);
+    $stmt->bindParam(':username', $username);
     $stmt->bindParam(':passwd', $coolpwd);
     $stmt->bindParam(':token', $verificationCode);
     $stmt->bindParam(':picture', $picture);
+    $stmt->bindParam(':oauth', $oauth);
     $stmt->execute();
     $query = $db->prepare("SELECT id FROM users WHERE email = :email");
     $query->bindParam(':email', $email);

@@ -5,10 +5,9 @@ error_reporting(E_ALL);
 
 $host = "localhost";
 $username = "root";
-$password = "";
+$password = "bitnamico";
 $table = "users";
 $dbname = "hypertube";
-
 $db = null;
 try{
 	$db = new PDO("mysql:host=$host", $username, $password);
@@ -27,6 +26,7 @@ try{
 		token text NOT NULL,
         verified int DEFAULT '0' NOT NULL,
 		fb_id bigint DEFAULT '0' NOT NULL,
+		oauth int DEFAULT '0' NOT NULL,
 		picture varchar(255) NOT NULL)";
     $db->exec($statement);
 
