@@ -66,7 +66,6 @@
 	}
 	
 </style>
-<script type="text/javascript" src="getData.js"></script>
 	<script type="text/javascript" src="sort.js"></script>
 	<script type="text/javascript" src="filter.js"></script>
 	<script 
@@ -358,7 +357,7 @@
 	</body>
 </html>
 
-<script src="./test.js"></script>
+<script src="./showMoviehelpers.js"></script>
 
 <script type="text/javascript">
 
@@ -433,7 +432,7 @@ $(document).ready(function()
 
 								getMovieDataPromise(rawdata.results,"search")
 									.then((result) => {
-											console.log(result);
+									//		console.log(result);
 											result = filterFunction(result, filter);
 											result = sortFunction(result, sort);	
 
@@ -539,7 +538,7 @@ $(document).ready(function()
 
 									getMovieDataPromise(rawdata.results,"search")
 										.then((result) => {
-											console.log(result);
+										//	console.log(result);
 											result = filterFunction(result, filter);
 											result = sortFunction(result, sort);	
 
@@ -610,9 +609,9 @@ function movieHoverOut(elem)
 
 
 // REDIRECT
-function loadInfo(id)
+function loadInfo(id,release_date)
 {
-	location.href = '/Hypertube/movieInfoPage.php?id='+ id +'';
+	location.href = '/Hypertube/movieInfoPage.php?id='+ id +'&date='+release_date;
 };
 
 </script>

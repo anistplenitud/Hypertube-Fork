@@ -20,12 +20,11 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/Hypertube/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="96x96" href="/Hypertube/favicon/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/Hypertube/favicon/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="/Hypertube/manifest.json">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage" content="/Hypertube/favicon/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
 
-<script type="text/javascript" src="getData.js"></script>
 	<script type="text/javascript" src="sort.js"></script>
 	<script type="text/javascript" src="filter.js"></script>
 	<script 
@@ -123,28 +122,26 @@
 	</div>
 </body>
 </html>
+<script src="showMoviehelpers.js"></script>
 <script type="text/javascript">
 
 	var val = "<?php echo $_GET['id'] ?>";
+	var date = "<?php echo $_GET['date'] ?>"
 	console.log(val);
 	if (val)
 	{
 		
 		$(document).ready(function()
 		{
-			var result;
+			var arr = [];
+			arr.push({'id':val ,'release_date':date});
 
-			jQuery.ajaxSetup({async:false});
-			$.get("https://api.themoviedb.org/3/movie/"+ val +"?api_key=4084c07502a720532f5068169281abff",function(rawdata)
-			{
-				result = appendMovieData(rawdata, val, "info");
-						
-			});
+			getMovieDataPromise(arr,"info").then(function(movie){
+				var result = movie[0];
 
-			console.log(result);
-			var content;
+				console.log(result);
 
-			//ERROR CHECKING - so as not to get funny values displaying
+				//ERROR CHECKING - so as not to get funny values displaying
 			// check if there is a rating given
 			var rating;
 			if (result.imdbRating === 'N/A' || result.imdbRating === 'undefined' || result.imdbRating === undefined || result.imdbRating === 'null' || result.imdbRating === null || isNaN(result.imdbRating)) 
@@ -166,7 +163,7 @@
 
 			// check if there is a movie poster avaliable
 			var srcImage;
-			if (!(result.poster_path === null))
+			if (result.poster_path)
 				srcImage = "https://image.tmdb.org/t/p/w342" + result.poster_path;
 			else if (!(result.Poster === 'N/A' || result.Poster === undefined))
 				srcImage = result.Poster;
@@ -180,18 +177,18 @@
 				originalTitle = ""
 
 			var genreList;
-			genreList = stringifyGenre(result.genres);
+		//	genreList = stringifyGenre(result.genres);
 
 			// http://i63.tinypic.com/2hp39tg.png
 			var cast = fillTable(result.cast, "cast");
 		//	console.log(cast);
 			var crew = fillTable(result.crew, "crew");
 		//	console.log(crew);
-			window.title = result.title;
+			window.title = result.Title;
 					// this is creating a div with the content inside of it
 					content =
 					`<div class="card-header">
-						<h4 id="movieName" class="card-title">`+ result.title+ `</h4>
+						<h4 id="movieName" class="card-title">`+ result.Title+ `</h4>
 						`+ originalTitle +`
 						<p class="text-muted">(`+ result.Year +`)</p>
 					</div>
@@ -211,7 +208,7 @@
 									</div>
 								</div>
 								<div class="col-sm-8 gallery-pad">
-									<p><b>Genre:</b> `+ genreList +`</p>
+									<p><b>Genre:</b> `+ result.genres +`</p>
 									<br>
 									<p><b>Plot:</b> `+ result.Plot +`</p>
 									<br>
@@ -245,7 +242,18 @@
 					</div>`;
 
 				$('#result').append(content).hide().fadeIn(); 			
+			});
+
+	
 		});
+/*
+			
+						
+			});
+
+			
+		});
+		*/
 	}
 
 	function stringifyGenre(result)

@@ -8,6 +8,9 @@ async function getMovieDataPromise(result, pageType)
 		let response2 = await fetch("https://www.omdbapi.com/?i="+ movie.imdb_id +"&apikey=1f18a935");
 		let moviedata = await response2.json();
 
+		console.log(movie);
+		console.log(moviedata);
+
 	if(moviedata.Response)
 	{	
 		result[i].imdbID = movie.imdb_id;
@@ -15,7 +18,9 @@ async function getMovieDataPromise(result, pageType)
 		result[i].tmdbURL = "https://www.themoviedb.org/movie/"+ result[i].id +"";
 		result[i].imdbURL = "https://www.imdb.com/title/"+ result[i].imdbID +"/";
 		result[i].imdbRating = Number(moviedata.imdbRating);									
-		result[i].Poster = moviedata.Poster;				
+		result[i].Poster = moviedata.Poster;
+		result[i].genres = moviedata.Genre;
+		result[i].Title = moviedata.Title;				
 
 		if (pageType == "info")
 		{	
@@ -90,7 +95,7 @@ function createMovieCard(moviedata) {
 
 				// this is creating a div with the content inside of it
 				content = 
-				`<div id="`+ moviedata.imdbID +`"class="moviecards col-sm-4 card border-secondary sm-3" style="max-width: 20rem; min-width: 20rem; align-items: center; border-color: #9933CC;" onmouseover="movieHoverIn(this)" onmouseout="movieHoverOut(this)" onclick="loadInfo('`+ moviedata.imdbID +`')">
+				`<div id="`+ moviedata.imdbID +`"class="moviecards col-sm-4 card border-secondary sm-3" style="max-width: 20rem; min-width: 20rem; align-items: center; border-color: #9933CC;" onmouseover="movieHoverIn(this)" onmouseout="movieHoverOut(this)" onclick="loadInfo('`+ moviedata.imdbID +`','`+moviedata.Year+`')">
 					<div class="card-header">
 						<h5 class="card-title" style="`+ titleSize +`">`+ moviedata.title +`</h5>
 						`+ originalTitle +`
