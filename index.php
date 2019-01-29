@@ -194,7 +194,7 @@ input[type=submit]:hover {
 </style>
 </head>
 <body>
-
+<div id="google_translate_element"></div>
 <button class="tablink" onclick="openPage('Sign-in', this, 'black')" id="defaultOpen">Sign-in</button>
 <button class="tablink" onclick="openPage('Sign-up', this, 'black')">Sign-up</button>
 
@@ -332,6 +332,13 @@ document.getElementById("defaultOpen").click();
 </body>
 
 </html>
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 <?php
 require_once("setup.php");
