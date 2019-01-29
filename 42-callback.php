@@ -2,11 +2,13 @@
 <h1> GOT YOUR INFO</h1>
 </html>
 <?php
+session_start();
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once "setup.php";
-session_start();
+
 
 $authorization_code = $_GET['code'];
 
@@ -43,6 +45,12 @@ $picture = $arr['image_url'];
 $email = $arr["email"];
 $password = "default";
 $verificationCode = "default";
+
+$_SESSION["first_name"] = $first_name;
+$_SESSION["last_name"] = $last_name;
+$_SESSION["picture"] = $picture;
+$_SESSION["email"] = $email;
+
 $query = $db->prepare("SELECT id FROM users WHERE email = :email");
 $query->bindParam(':email', $email);
 $query->execute();

@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php session_start(); 
+	
+	if (!isset($_SESSION['id'])) {
+		header ('Location: ./');
+	}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -124,7 +129,7 @@
       	</a>
 		<div class="dropdown-menu">
         	<a class="dropdown-item" href="#">My Profile</a>
-        	<a class="dropdown-item" href="#">Logout</a>
+        	<a class="dropdown-item" href="./logout.php">Logout</a>
     	</div>
 		<center>
 		<div class="topnav-centered">
@@ -286,12 +291,13 @@
 
 	<br />
 	<div class="container-fluid">
-		<div class="row">
-			<img id="loading" src="http://i68.tinypic.com/zk3gol.gif" style="margin-left: auto; margin-right: auto; display: none;" alt="Loading..." title="Loading..."/>
-		</div>
 		<div id="result" class="row">
 			
 		</div>
+		<div class="row">
+			<img id="loading" src="http://i68.tinypic.com/zk3gol.gif" style="margin-left: auto; margin-right: auto; display: none;" alt="Loading..." title="Loading..."/>
+		</div>
+		
 		<div class="row">
 			<div id="pagination-container" style="display: block; margin: auto; padding: 2%;"></div></div>
 		</div>	
@@ -352,28 +358,12 @@
 	</body>
 </html>
 
+<script src="./test.js"></script>
+
 <script type="text/javascript">
 
-// const api = "&api_key=4084c07502a720532f5068169281abff";
-// const endpoint = `https://api.themoviedb.org/3/search/movie?query=${search}${api}`;
-// const poster = "https://image.tmdb.org/t/p/w600/";
-
-//https://www.youtube.com/watch?v=67eJTr6_ylY
-//https://www.youtube.com/watch?v=aMKf3su6TjI
-//https://www.youtube.com/watch?v=bpHtxx_wmqw
-
-// SEARCH
 $(document).ready(function()
 	{
-		/*
-			https://www.themoviedb.org/documentation/api?language=en-US
-
-			"/search - Text based search is the most common way. You provide a query string and we provide the closest match. Searching by text takes into account all original, translated, alternative names and titles.
-
-			/discover - Sometimes it useful to search for movies and TV shows based on filters or definable values like ratings, certifications or release dates. The discover method make this easy. For some example queries, and to get an idea about the things you can do with discover, take a look here.
-
-			/find - The last but still very useful way to find data is with existing external IDs. For example, if you know the IMDB ID of a movie, TV show or person, you can plug that value into this method and we'll return anything that matches. This can be very useful when you have an existing tool and are adding our service to the mix."
-		*/
 
 		const moviedbAPI = "&api_key=4084c07502a720532f5068169281abff";		// https://www.themoviedb.org/documentation/api?language=en-US
 		const omdbAPI = "&apikey=1f18a935"									// http://www.omdbapi.com/
@@ -386,7 +376,7 @@ $(document).ready(function()
 		var filter;
 
 		/* Popular Movies */
-		
+
 		var actionque = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=4084c07502a720532f5068169281abff`;
 		// test for pagination
 		$('#pagination-container').pagination(
@@ -426,115 +416,45 @@ $(document).ready(function()
 				},
 				callback: function(data, pagination) 
 				{
-					//$('#pagination-container').css('display') == 'none';
-
 					// template method of yourself
 					if ($('#loading').css('display') == 'none')
 						$('#loading').fadeIn(50);
 					
-					$.get(actionque+`&page=`+ pagination.pageNumber +``, function(rawdata)
-					{						
-						console.log(rawdata); // https://gifyu.com/image/w0pl
 
-						// to get search data - this fetches an array of movies with matches to the search
-						// themoviedb has a much more powerful search functionality 
-						// Whereas omdb has a better resources from on IMDB
+					async function showMovies(actionque) {
 
-						// var request = `https://api.themoviedb.org/3/${moviedbMethod}/movie?query=${event.target.value}${sort}${sortMethod}&api_key=4084c07502a720532f5068169281abff`;
-
-						console.log("\n\n\n\n\n\n");
-						console.log("Data");
-						console.log(rawdata);
-						console.log(pagination.total_results);
-						console.log("\n\n\n\n\n\n");
-
-						var result; 
-						result = getMovieData(rawdata.results, "search");
-						result = filterFunction(result, filter);
-						result = sortFunction(result, sort);
-
-						$('#loading').fadeOut()
-
-						$('#result').html('');
-						result.forEach(function(moviedata) 
-						{				
-							console.log("OMDB")
-							console.log(moviedata);
-							var content;
-							var imdbRating;
-							var imdbURL;
-
-							//ERROR CHECKING - so as not to get funny values displaying
-							// check if there is a rating given
-							var rating;
-							imdbRating = moviedata.imdbRating;
-							if (imdbRating === 'N/A' || imdbRating === 'undefined' || imdbRating === undefined || imdbRating === 'null' || imdbRating === null || isNaN(imdbRating)) /*imdbRating === NaN || imdbRating === "NaN" || movie.imdbID === NaN || movie.imdbID === "NaN"*/
-								rating = 'N/A';
-							else
-								rating = imdbRating + "/10";	
-
-							// check if there is an IMDB ID to have a URL
-							// TECHNICALLY this should not have to be checked since we removed all moves without an ID
-							if (moviedata.imdbID === 'N/A' || moviedata.imdbID === 'undefined' || moviedata.imdbID === undefined || moviedata.imdbID === 'null' || moviedata.imdbID === null || rating === 'N/A')
-								imdbURL = "<p> </p>";
-							else
-								imdbURL = "<a href='"+ moviedata.imdbURL +"'>Go to IMDb Page</a>";
-
-							//check if there is a year provided
-							var yearRelease = moviedata.Year;
-							if (yearRelease === 'N/A' || yearRelease === 'undefined' || yearRelease === undefined || yearRelease === 'null' || yearRelease === null || isNaN(yearRelease) || yearRelease <= 0) 
-								yearRelease = 'N/A';
-
-							// check if there is a movie poster avaliable
-							var srcImage;
-							if (!(moviedata.poster_path === null))
-								srcImage = "https://image.tmdb.org/t/p/w342" + moviedata.poster_path;
-							else if (!(moviedata.Poster === 'N/A' || moviedata.Poster === undefined))
-								srcImage = moviedata.Poster;
-							else 
-								srcImage = "http://i67.tinypic.com/10fc1lg.jpg";	
-
-							// AESTHETIC - This is just a font size chaninging effect for if the movie name is too long.
-							var titleSize;
-							if(moviedata.title.length <= 65) 
-								titleSize = "font-size: 1.2rem";
-							else
-								 titleSize = "font-size: 100%";
+						fetch(actionque).then((response)=>{
 							
-							var originalTitle;
-							if (moviedata.title != moviedata.original_title)
-								originalTitle = `<h6>(`+ moviedata.original_title +`)</h6>`;
-							else
-								originalTitle = ""
-							
+							if (response.status !== 200) {
+								console.log('Error Occured');
+								return;
+							}
+							response.json().then(function(rawdata){
 
-							// this is creating a div with the content inside of it
-							content = 
-							`<div id="`+ moviedata.imdbID +`"class="moviecards col-sm-4 card border-secondary sm-3" style="max-width: 20rem; min-width: 20rem; align-items: center; border-color: #9933CC;" onmouseover="movieHoverIn(this)" onmouseout="movieHoverOut(this)" onclick="loadInfo('`+ moviedata.imdbID +`')">
-								<div class="card-header">
-									<h5 class="card-title" style="`+ titleSize +`">`+ moviedata.title +`</h5>
-									`+ originalTitle +`
-								</div>
-								<div class="card-body">
-									<i class="far fa-eye" style="float: right; font-size: large; display:none;"></i>
-									<br>
-									<img src="` + srcImage + `" style="width: 100%; height: 450px; spadding-top: 0.5rem;"/>
-									<br>
-									<p text-muted>Year Released: ` + yearRelease +`</p>
-								</div>
-								<div class="card-footer">
-									<p><i class="fas fa-star"></i> `+ rating +`</p>
-									<br>
-									`+ imdbURL +`
-								</div>
-							</div>`;
-						
-							$('#result').append(content).hide().fadeIn(); 
-									
+								getMovieDataPromise(rawdata.results,"search")
+									.then((result) => {
+											console.log(result);
+											result = filterFunction(result, filter);
+											result = sortFunction(result, sort);	
+
+											$('#loading').fadeOut();
+											$('#result').html('');
+
+											result.forEach(createMovieCard);
+											
+									});
+							});
+
 						});
-					});
+
+				  		return 1;
+					}
+
+					showMovies(actionque+`&page=`+ pagination.pageNumber +``);
+
 				}
 			});
+
 
 
 		/* Popular Movies */
@@ -605,110 +525,43 @@ $(document).ready(function()
 					// template method of yourself
 					if ($('#loading').css('display') == 'none')
 						$('#loading').fadeIn(50);
-					
-					$.get(actionque+`&page=`+ pagination.pageNumber +``, function(rawdata)
-					{						
-						console.log(rawdata); // https://gifyu.com/image/w0pl
 
-						// to get search data - this fetches an array of movies with matches to the search
-						// themoviedb has a much more powerful search functionality 
-						// Whereas omdb has a better resources from on IMDB
+					async function showMovies(actionque) {
 
-						// var request = `https://api.themoviedb.org/3/${moviedbMethod}/movie?query=${event.target.value}${sort}${sortMethod}&api_key=4084c07502a720532f5068169281abff`;
 
-						console.log("\n\n\n\n\n\n");
-						console.log("Data");
-						console.log(rawdata);
-						console.log("\n\n\n\n\n\n");
-
-						var result; 
-						result = getMovieData(rawdata.results, "search");
-						result = filterFunction(result, filter);
-						result = sortFunction(result, sort);
-
-						$('#loading').fadeOut()
-
-						$('#result').html('');
-						result.forEach(function(moviedata) 
-						{				
-							console.log("OMDB")
-							console.log(moviedata);
-							var content;
-							var imdbRating;
-							var imdbURL;
-
-							//ERROR CHECKING - so as not to get funny values displaying
-							// check if there is a rating given
-							var rating;
-							imdbRating = moviedata.imdbRating;
-							if (imdbRating === 'N/A' || imdbRating === 'undefined' || imdbRating === undefined || imdbRating === 'null' || imdbRating === null || isNaN(imdbRating)) /*imdbRating === NaN || imdbRating === "NaN" || movie.imdbID === NaN || movie.imdbID === "NaN"*/
-								rating = 'N/A';
-							else
-								rating = imdbRating + "/10";	
-
-							// check if there is an IMDB ID to have a URL
-							// TECHNICALLY this should not have to be checked since we removed all moves without an ID
-							if (moviedata.imdbID === 'N/A' || moviedata.imdbID === 'undefined' || moviedata.imdbID === undefined || moviedata.imdbID === 'null' || moviedata.imdbID === null || rating === 'N/A')
-								imdbURL = "<p> </p>";
-							else
-								imdbURL = "<a href='"+ moviedata.imdbURL +"'>Go to IMDb Page</a>";
-
-							//check if there is a year provided
-							var yearRelease = moviedata.Year;
-							if (yearRelease === 'N/A' || yearRelease === 'undefined' || yearRelease === undefined || yearRelease === 'null' || yearRelease === null || isNaN(yearRelease) || yearRelease <= 0) 
-								yearRelease = 'N/A';
-
-							// check if there is a movie poster avaliable
-							var srcImage;
-							if (!(moviedata.poster_path === null))
-								srcImage = "https://image.tmdb.org/t/p/w342" + moviedata.poster_path;
-							else if (!(moviedata.Poster === 'N/A' || moviedata.Poster === undefined))
-								srcImage = moviedata.Poster;
-							else 
-								srcImage = "http://i67.tinypic.com/10fc1lg.jpg";	
-
-							// AESTHETIC - This is just a font size chaninging effect for if the movie name is too long.
-							var titleSize;
-							if(moviedata.title.length <= 65) 
-								titleSize = "font-size: 1.2rem";
-							else
-								 titleSize = "font-size: 100%";
+						fetch(actionque).then((response)=>{
 							
-							var originalTitle;
-							if (moviedata.title != moviedata.original_title)
-								originalTitle = `<h6>(`+ moviedata.original_title +`)</h6>`;
-							else
-								originalTitle = ""
-							
+							if (response.status !== 200) {
+								console.log('Error Occured');
+								return;
+							}
+							response.json().then(function(rawdata){
 
-							// this is creating a div with the content inside of it
-							content = 
-							`<div id="`+ moviedata.imdbID +`"class="moviecards col-sm-4 card border-secondary sm-3" style="max-width: 20rem; min-width: 20rem; align-items: center; border-color: #9933CC;" onmouseover="movieHoverIn(this)" onmouseout="movieHoverOut(this)" onclick="loadInfo('`+ moviedata.imdbID +`')">
-								<div class="card-header">
-									<h5 class="card-title" style="`+ titleSize +`">`+ moviedata.title +`</h5>
-									`+ originalTitle +`
-								</div>
-								<div class="card-body">
-									<i class="far fa-eye" style="float: right; font-size: large; display:none;"></i>
-									<br>
-									<img src="` + srcImage + `" style="width: 100%; height: 450px; spadding-top: 0.5rem;"/>
-									<br>
-									<p text-muted>Year Released: ` + yearRelease +`</p>
-								</div>
-								<div class="card-footer">
-									<p><i class="fas fa-star"></i> `+ rating +`</p>
-									<br>
-									`+ imdbURL +`
-								</div>
-							</div>`;
-						
-							$('#result').append(content).hide().fadeIn(); 
-									
+									getMovieDataPromise(rawdata.results,"search")
+										.then((result) => {
+											console.log(result);
+											result = filterFunction(result, filter);
+											result = sortFunction(result, sort);	
+
+											$('#loading').fadeOut();
+											$('#result').html('');
+
+											result.forEach(createMovieCard);
+											
+										});
+							});
+
 						});
-					});
+
+				  		return 1;
+					}		
+					
+					showMovies(actionque+`&page=`+ pagination.pageNumber +``);
 				}
 			});
-		});		
+		});
+
+		
 	});
 
 function getSortID(sortType)

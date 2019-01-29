@@ -26,6 +26,11 @@ $email = $userinfo["email"];
 $verificationCode = "default";
 $password = "default";
 
+$_SESSION["first_name"] = $first_name;
+$_SESSION["last_name"] = $last_name;
+$_SESSION["picture"] = $picture;
+$_SESSION["email"] = $email;
+
 $query = $db->prepare("SELECT id FROM users WHERE email = :email");
 $query->bindParam(':email', $email);
 $query->execute();

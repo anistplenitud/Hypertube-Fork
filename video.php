@@ -1,5 +1,9 @@
 <?php
   session_start();
+
+  if (!isset($_SESSION['id'])) {
+    header ('Location: ./');
+  }
   require_once('setup.php');
 
   $torrent_id = $_GET['torrent_id'];
