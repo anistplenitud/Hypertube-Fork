@@ -2,13 +2,11 @@
 <h1> GOT YOUR INFO</h1>
 </html>
 <?php
-session_start();
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 require_once "setup.php";
-
+session_start();
 
 $authorization_code = $_GET['code'];
 
@@ -69,7 +67,7 @@ else
     $coolpwd = hash('whirlpool', $password);
     $code = rand(100000, 199999);
     $oauth = 1;
-	$username = $first_name . $code;
+    $username = $first_name . $code;
     $stmt= $db->prepare($sql);
     $stmt->bindParam(':first_name', $first_name);
     $stmt->bindParam('last_name', $last_name);

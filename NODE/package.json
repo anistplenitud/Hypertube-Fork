@@ -1,0 +1,41 @@
+{
+  "name": "torrentclient",
+  "version": "1.0.0",
+  "description": "Simple Torrent Client",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "pmotala",
+  "license": "MIT",
+  "dependencies": {
+    "bencode": "^2.0.0",
+    "bignum": "^0.13.0",
+    "bittorrent-tracker": "^9.10.1",
+    "bn.js": "^4.11.8",
+    "body-parser": "^1.18.3",
+    "cloudscraper": "^2.0.0",
+    "download": "^7.1.0",
+    "ejs": "^2.6.1",
+    "events": "^3.0.0",
+    "express": "^4.16.4",
+    "extratorrent-api": "^1.1.4",
+    "find": "^0.2.9",
+    "growing-file": "^0.1.3",
+    "int64-buffer": "^0.99.1007",
+    "magnet-link": "^1.1.3",
+    "magnet2torrenturl": "^2.1.3",
+    "mkdirp": "^0.5.1",
+    "myts-api": "^0.2.0",
+    "node-fetch": "^2.3.0",
+    "parse-torrent": "^6.1.2",
+    "peer-wire-swarm": "^0.12.2",
+    "range-parser": "^1.2.0",
+    "request": "^2.88.0",
+    "scrape-torrent-stats": "0.0.2",
+    "stream-transcoder": "0.0.5",
+    "tail-stream": "^0.3.4",
+    "torrent-search-api": "^2.0.4",
+    "yify-search": "^1.0.0"
+  }
+}
