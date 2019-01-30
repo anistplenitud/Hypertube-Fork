@@ -4,7 +4,6 @@
 		header ('Location: ./');
 	}
 
-	print_r($_SESSION);
 ?>
 <!DOCTYPE html>
 <html>

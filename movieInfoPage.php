@@ -323,12 +323,13 @@
 
 	function isWatched()
 	{
+		// simple ajax post call to send information to updateWatched.php
 		let url = 'updateWatched.php';
 
 		$.post( url, {movieID:val})
 		.done(function( data ) 
 		{
-			if(data > 0)
+			if (data > 0)
 				console.log("View added");
 			else
 				console.log("something went wrong");
@@ -338,7 +339,7 @@
 	function downloadQuery(movie, status = true) 
 	{
 
-		isWatched();
+		isWatched(); // Hijacking Dante's function to call the viewing function since this function is fired when the button is pressed
 		var movieName = movie;//(movie != null && movie != 'undefined') ? document.getElementById('movie_name').value : movie;
 		var xhr = new XMLHttpRequest();
 

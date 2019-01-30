@@ -1,10 +1,5 @@
 <?php
 
-
-ini_set('display_errors', 1); 
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 //echo file_put_contents("test.txt", $_SESSION['logged_in']); // just check if ajax is sending ID
 include 'setup.php';
@@ -39,7 +34,9 @@ try
 				$stmt->bindParam(':watch', $watchedMovie, PDO::PARAM_BOOL);
 				$valid = $stmt->execute();
 				if (!$valid)
-					die ("Something went wrong.. ");
+					echo "0";
+				else
+					echo "1";
 			}
 			else
 			{
@@ -49,7 +46,9 @@ try
 				$stmt->bindParam(':user_ID', $_SESSION['id']);
 				$valid = $stmt->execute();
 				if (!$valid)
-					die ("Something went wrong.. ");
+					echo "0";
+				else
+					echo "1";
 			}			
 		}
 	}
@@ -57,7 +56,6 @@ try
 catch(PDOException $e)
 {
 	echo $stmt . "<br>" . $e->getMessage();
-	// echo file_put_contents("test.txt", $stmt."\n".$e->getMessage());
 }
 	
 $conn = null;	

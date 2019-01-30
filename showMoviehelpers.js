@@ -8,14 +8,8 @@ async function getMovieDataPromise(result, pageType)
 		let response2 = await fetch("https://www.omdbapi.com/?i="+ movie.imdb_id +"&apikey=1f18a935");
 		let moviedata = await response2.json();
 
-		console.log(movie);
-		console.log(moviedata);
-		console.log(response);
-
 	if(moviedata.Response)
 	{	
-		console.log("themoviedb");
-		console.log(moviedata.Response);
 		result[i].imdbID = movie.imdb_id;
 		result[i].Year = Number(result[i].release_date.substring(0, 4));
 		result[i].tmdbURL = "https://www.themoviedb.org/movie/"+ result[i].id +"";
@@ -37,7 +31,6 @@ async function getMovieDataPromise(result, pageType)
 	}
 	if (pageType == "info")
 	{
-		console.log("IN HERE");
 		let response3 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/credits?api_key=4084c07502a720532f5068169281abff");
 		let response4 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"?api_key=4084c07502a720532f5068169281abff");
 
@@ -100,30 +93,38 @@ function createMovieCard(moviedata)
 				else
 					originalTitle = ""
 				
+				var viewed;
+				$.post('checkWatched.php', {movieID:moviedata.imdbID})
+				.done(function( data ) 
+				{
+					if (data > 0)
+						viewed = "display:block;"; 
+					else
+						viewed = "display:none;"; 
 
-				// this is creating a div with the content inside of it
-				content = 
-				`<div id="`+ moviedata.imdbID +`"class="moviecards col-sm-4 card border-secondary sm-3" style="max-width: 20rem; min-width: 20rem; align-items: center; border-color: #9933CC;" onmouseover="movieHoverIn(this)" onmouseout="movieHoverOut(this)" onclick="loadInfo('`+ moviedata.imdbID +`','`+moviedata.Year+`')">
-					<div class="card-header">
-						<h5 class="card-title" style="`+ titleSize +`">`+ moviedata.title +`</h5>
-						`+ originalTitle +`
-					</div>
-					<div class="card-body">
-						<i class="far fa-eye" style="float: right; font-size: large; display:none;"></i>
-						<br>
-						<img src="` + srcImage + `" style="width: 100%; height: 450px; spadding-top: 0.5rem;"/>
-						<br>
-						<p text-muted>Year Released: ` + yearRelease +`</p>
-					</div>
-					<div class="card-footer">
-						<p><i class="fas fa-star"></i> `+ rating +`</p>
-						<br>
-						`+ imdbURL +`
-					</div>
-				</div>`;
-			
-				$('#result').append(content).hide().fadeIn(); 
+					// this is creating a div with the content inside of it
+					content = 
+					`<div id="`+ moviedata.imdbID +`"class="moviecards col-sm-4 card border-secondary sm-3" style="max-width: 20rem; min-width: 20rem; align-items: center; border-color: #9933CC;" onmouseover="movieHoverIn(this)" onmouseout="movieHoverOut(this)" onclick="loadInfo('`+ moviedata.imdbID +`','`+moviedata.Year+`')">
+						<div class="card-header">
+							<h5 class="card-title" style="`+ titleSize +`">`+ moviedata.title +`</h5>
+							`+ originalTitle +`
+						</div>
+						<div class="card-body">
+							<i class="far fa-eye" style="float: right; font-size: large; `+ viewed +`"></i>
+							<br>
+							<img src="` + srcImage + `" style="width: 100%; height: 450px; spadding-top: 0.5rem;"/>
+							<br>
+							<p text-muted>Year Released: ` + yearRelease +`</p>
+						</div>
+						<div class="card-footer">
+							<p><i class="fas fa-star"></i> `+ rating +`</p>
+							<br>
+							`+ imdbURL +`
+						</div>
+					</div>`;
+				
+					$('#result').append(content).hide().fadeIn(); 
+				});			
 		
 }
-
 		
