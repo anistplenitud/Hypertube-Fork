@@ -16,12 +16,13 @@ const growingFile = require('growing-file');
 const Transcoder = require('stream-transcoder');
 const find = require('find');
 const parseRange = require('range-parser');
+var cors =  require('cors');
 
 var app = express();
 var check = 0;
 var movieDownloaded = null;
 
-
+app.use(cors());
 app.use(express.static(path.join(__dirname, 'views')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
