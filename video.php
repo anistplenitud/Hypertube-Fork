@@ -292,8 +292,8 @@
 
     <center>
         <video width="100%" height="100%" controls loop>
-            <source src="Alan Jackson - Precious Memories (Gospel Songs).mp4" type="video/mp4">
-            <source src="movie.ogg" type="video/ogg">
+            <source src="http://localhost:3000/video" type="video/mp4">
+            <!-- source src="movie.ogg" type="video/ogg" -->
             Your browser does not support the video tag.
         </video>
     </center>

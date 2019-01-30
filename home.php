@@ -543,6 +543,10 @@ $(document).ready(function()
 											result = filterFunction(result, filter);
 											result = sortFunction(result, sort);	
 
+											console.log('---------------------------');
+											console.log(result);
+											console.log('---------------------------');
+
 											$('#loading').fadeOut();
 											$('#result').html('');
 

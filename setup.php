@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 $host = "localhost";
 $username = "root";
 $password = "projects";
+
 $table = "users";
 $dbname = "hypertube";
 $db = null;

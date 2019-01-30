@@ -216,7 +216,7 @@
 									 <center>
         <div class="col">
             <button class="btn"><i class="fa fa-download"></i> Download</button> 
-            <button class="btn" onclick="sendobj_to_video()"><i class="fa fa-tv"></i> Stream</button>
+            <button class="btn" onclick="downloadQuery('`+result.Title+` `+result.Year+`')"><i class="fa fa-tv"></i> Stream</button>
         </div>
     </center>
 								</div>
@@ -314,6 +314,70 @@
             x.className = "topnav";
           }
         }
+
+    function downloadQuery(movie, status = true) {
+	var movieName = movie;//(movie != null && movie != 'undefined') ? document.getElementById('movie_name').value : movie;
+	var xhr = new XMLHttpRequest();
+
+	if (status == true) {
+		var address = "http://localhost:3000/startDownload/" + movieName;
+	}
+	else {
+		var address = "http://localhost:3000/checkStatus";
+	}
+
+	xhr.open('GET', address, true);
+
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			if (xhr.responseText != 'failed' && xhr.responseText != 'Pending') {
+
+				var target = document.getElementById('result');
+				target.innerHTML = '<button id="startStream_button" value="' + xhr.responseText + '" onclick="startStreamQuery(this)">Start Stream</button></a>';
+				ready = true;
+				console.log(xhr.responseText);
+
+			}
+			else if (xhr.responseText == 'failed') {
+				var target = document.getElementById('result');
+				target.innerHTML = "<h2>" + xhr.responseText + "</h2>";
+			}
+			else {
+				var target = document.getElementById('result');
+				target.innerHTML = "<h2>" + xhr.responseText + "</h2>";
+				downloadQuery(movieName, false);
+			}
+		}
+	}
+
+	xhr.send();
+}
+
+var ready = false;
+
+function startStreamQuery(button)
+{
+	var movieName = button.value;
+	var xhr = new XMLHttpRequest();
+	var address = "http://localhost:3000/startStream/" + movieName;
+
+	xhr.open('GET', address, true);
+
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			//window.location = 'http://localhost:3000/watchVideo';
+			window.location = "http://localhost:8080/Hypertube/video.php?torrent_id=" +val+"&title="+window.title;
+		}
+	}
+
+	xhr.send();
+}
+
+if (ready == true)
+{
+	var startStream_button = document.getElementById('startStream_button');
+	startStream_button.addEventListener('click', switchPage); 
+}
     </script>
 
     <script type="text/javascript">
