@@ -174,17 +174,17 @@ input[type=submit]:hover {
 /* Responsive layout - when the screen is less than 650px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 650px) {
   .col {
-    width: 100%;
-    margin-top: 0;
+	width: 100%;
+	margin-top: 0;
   }
   /* hide the vertical line */
   .vl {
-    display: none;
+	display: none;
   }
   /* show the hidden text on small screens */
   .hide-md-lg {
-    display: block;
-    text-align: center;
+	display: block;
+	text-align: center;
   }
 }
 
@@ -202,46 +202,46 @@ input[type=submit]:hover {
   <br /><br /><br /><br /><br /><br />
   <div class="container">
   <form action="login.php" method="POST">
-    <div class="row">
-      <h2 style="text-align:center">Sign-in with Social Media or Manually</h2>
-      <div class="vl">
-        <span class="vl-innertext">or</span>
-      </div>
+	<div class="row">
+	  <h2 style="text-align:center">Sign-in with Social Media or Manually</h2>
+	  <div class="vl">
+		<span class="vl-innertext">or</span>
+	  </div>
 
-      <div class="col">
-        <a href="<?php echo $loginurl ?>" class="fb btn">
-          <i class="fa fa-facebook fa-fw"></i> Sign-in with Facebook
-         </a>
-        <a href="<?php echo $loginurl42 ?>" class="twitter btn">
-          <i class="fa fa-twitter fa-fw"></i> Sign-in with WeThinkCode_
-        </a>
-        <a href="<?php echo $gloginurl ?>" class="google btn"><i class="fa fa-google fa-fw">
-          </i> Sign-in with Google
-        </a>
-      </div>
+	  <div class="col">
+		<a href="<?php echo $loginurl ?>" class="fb btn">
+		  <i class="fa fa-facebook fa-fw"></i> Sign-in with Facebook
+		 </a>
+		<a href="<?php echo $loginurl42 ?>" class="twitter btn">
+		  <i class="fa fa-twitter fa-fw"></i> Sign-in with WeThinkCode_
+		</a>
+		<a href="<?php echo $gloginurl ?>" class="google btn"><i class="fa fa-google fa-fw">
+		  </i> Sign-in with Google
+		</a>
+	  </div>
 
-      <div class="col">
-        <div class="hide-md-lg">
-          <p>Or Sign-in manually:</p>
-        </div>
+	  <div class="col">
+		<div class="hide-md-lg">
+		  <p>Or Sign-in manually:</p>
+		</div>
 
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="submit" value="Sign-in">
-      </div>
-      
-    </div>
+		<input type="text" name="username" placeholder="Username" required>
+		<input type="password" name="password" placeholder="Password" required>
+		<input type="submit" value="Sign-in">
+	  </div>
+	  
+	</div>
   </form>
 </div>
 
 <div class="bottom-container">
   <div class="row">
-    <div class="col">
-      <a href="#" style="color:white" class="btn">Sign-up</a>
-    </div>
-    <div class="col">
-      <a href="#" style="color:white" class="btn">Forgot password?</a>
-    </div>
+	<div class="col">
+	  <a href="#" style="color:white" class="btn">Sign-up</a>
+	</div>
+	<div class="col">
+	  <a href="#" style="color:white" class="btn">Forgot password?</a>
+	</div>
   </div>
 </div>
 </div>
@@ -250,49 +250,49 @@ input[type=submit]:hover {
   <br /><br /><br /><br /><br /><br />
   <div class="container">
   <form action="register.php" method="POST">
-    <div class="row">
-      <h2 style="text-align:center">Sign-up with Social Media or Manually</h2>
-      <div class="vl">
-        <span class="vl-innertext">or</span>
-      </div>
+	<div class="row">
+	  <h2 style="text-align:center">Sign-up with Social Media or Manually</h2>
+	  <div class="vl">
+		<span class="vl-innertext">or</span>
+	  </div>
 
-      <div class="col">
-        <a href="<?php echo $loginurl ?>" class="fb btn">
-          <i class="fa fa-facebook fa-fw"></i> Sign-up with Facebook
-         </a>
-        <a href="<?php echo $loginurl42 ?>" class="twitter btn">
-          <i class="fa fa-twitter fa-fw"></i> Sign-up with WeThinkCode_
-        </a>
-        <a href="<?php echo $gloginurl ?>" class="google btn"><i class="fa fa-google fa-fw">
-          </i> Sign-up with Google
-        </a>
-      </div>
+	  <div class="col">
+		<a href="<?php echo $loginurl ?>" class="fb btn">
+		  <i class="fa fa-facebook fa-fw"></i> Sign-up with Facebook
+		 </a>
+		<a href="<?php echo $loginurl42 ?>" class="twitter btn">
+		  <i class="fa fa-twitter fa-fw"></i> Sign-up with WeThinkCode_
+		</a>
+		<a href="<?php echo $gloginurl ?>" class="google btn"><i class="fa fa-google fa-fw">
+		  </i> Sign-up with Google
+		</a>
+	  </div>
 
-      <div class="col">
-        <div class="hide-md-lg">
-          <p>Or Sign-up manually:</p>
-        </div>
-        <input type="email" name="email" placeholder="Email" required>
-        <input type="text" placeholder="First Name" name="first_name" required>
-        <input type="text" placeholder="Last Name" name="last_name" required>
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="password" name="password2" placeholder="Repeat Password" required>
-        <input type="submit" value="Sign-up">
-      </div>
-      
-    </div>
+	  <div class="col">
+		<div class="hide-md-lg">
+		  <p>Or Sign-up manually:</p>
+		</div>
+		<input type="email" name="email" placeholder="Email" required>
+		<input type="text" placeholder="First Name" name="first_name" required>
+		<input type="text" placeholder="Last Name" name="last_name" required>
+		<input type="text" name="username" placeholder="Username" required>
+		<input type="password" name="password" placeholder="Password" required>
+		<input type="password" name="password2" placeholder="Repeat Password" required>
+		<input type="submit" value="Sign-up">
+	  </div>
+	  
+	</div>
   </form>
 </div>
 
 <div class="bottom-container">
   <div class="row">
-    <div class="col">
-      <a href="#" style="color:white" class="btn">Sign-in</a>
-    </div>
-    <div class="col">
-      <a href="#" style="color:white" class="btn">Forgot password?</a>
-    </div>
+	<div class="col">
+	  <a href="#" style="color:white" class="btn">Sign-in</a>
+	</div>
+	<div class="col">
+	  <a href="#" style="color:white" class="btn">Forgot password?</a>
+	</div>
   </div>
 </div>
 </div>
@@ -302,11 +302,11 @@ function openPage(pageName,elmnt,color) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
+	tabcontent[i].style.display = "none";
   }
   tablinks = document.getElementsByClassName("tablink");
   for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].style.backgroundColor = "";
+	tablinks[i].style.backgroundColor = "";
   }
   document.getElementById(pageName).style.display = "block";
   elmnt.style.backgroundColor = color;
@@ -320,7 +320,7 @@ document.getElementById("defaultOpen").click();
 
   <center>
   <div class="footer-copyright text-center bg-dark">© 2019 Copyright:
-    <a href="# github repo"> GPU</a>
+	<a href="# github repo"> GPU</a>
   </div>  
   </center>
   <!-- Copyright -->
@@ -362,13 +362,13 @@ if (isset($_GET['code']))
   $num = $stmt->rowCount();
   if ($num > 0)
   {
-    $query = "UPDATE users set verified = '1' where token = :verification_code";
-    $line = $db->prepare($query);
-    $line->bindParam(':verification_code', $code);
-    if ($line->execute())
-      echo "Your email has been verified. You may now log in.";
-    else
-     {
+	$query = "UPDATE users set verified = '1' where token = :verification_code";
+	$line = $db->prepare($query);
+	$line->bindParam(':verification_code', $code);
+	if ($line->execute())
+	  echo "Your email has been verified. You may now log in.";
+	else
+	 {
 				echo "Failed to verify email";
 				exit;
 		 }

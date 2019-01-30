@@ -3,6 +3,8 @@
 	if (!isset($_SESSION['id'])) {
 		header ('Location: ./');
 	}
+
+	print_r($_SESSION);
 ?>
 <!DOCTYPE html>
 <html>
@@ -122,15 +124,15 @@
 	<div id="google_translate_element"></div>
 	<div class="topnav" id="myTopnav">
 		<a class="navbar-brand" href="#">
-    		<img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
+			<img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
 		</a>
 		<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        	<?php echo $_SESSION['first_name']?>
-      	</a>
+			<?php echo $_SESSION['first_name']?>
+		</a>
 		<div class="dropdown-menu">
-        	<a class="dropdown-item" href="#">My Profile</a>
-        	<a class="dropdown-item" href="./logout.php">Logout</a>
-    	</div>
+			<a class="dropdown-item" href="#">My Profile</a>
+			<a class="dropdown-item" href="./logout.php">Logout</a>
+		</div>
 		<center>
 		<div class="topnav-centered">
 			<a href="#"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
@@ -144,7 +146,7 @@
 				<div>
 					<center>
 						<br /><br /><br /><br />
-  						<form>
+						<form>
 							<?php
 								if (isset($_GET['search'])) {
 									echo'<input id="searchbar" class="fieldinput" type="text" name="search" value ='.$_GET['search'].' placeholder="Search for a movie">';
@@ -285,7 +287,7 @@
 						<br />
 					</center>
 				</div>
-  			</div>
+			</div>
 		</div>
 	</div>
 
@@ -447,7 +449,7 @@ $(document).ready(function()
 
 						});
 
-				  		return 1;
+						return 1;
 					}
 
 					showMovies(actionque+`&page=`+ pagination.pageNumber +``);
@@ -557,7 +559,7 @@ $(document).ready(function()
 
 						});
 
-				  		return 1;
+						return 1;
 					}		
 					
 					showMovies(actionque+`&page=`+ pagination.pageNumber +``);

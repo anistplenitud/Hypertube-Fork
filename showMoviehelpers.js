@@ -10,9 +10,12 @@ async function getMovieDataPromise(result, pageType)
 
 		console.log(movie);
 		console.log(moviedata);
+		console.log(response);
 
 	if(moviedata.Response)
 	{	
+		console.log("themoviedb");
+		console.log(moviedata.Response);
 		result[i].imdbID = movie.imdb_id;
 		result[i].Year = Number(result[i].release_date.substring(0, 4));
 		result[i].tmdbURL = "https://www.themoviedb.org/movie/"+ result[i].id +"";
@@ -31,22 +34,27 @@ async function getMovieDataPromise(result, pageType)
 				result[i].Website = moviedata.Website;
 			}
 			
-		}
-		if (pageType == "info")
-		{
-			let response3 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/credits?api_key=4084c07502a720532f5068169281abff");
-			let moviecredit = await response3.json();
+	}
+	if (pageType == "info")
+	{
+		console.log("IN HERE");
+		let response3 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/credits?api_key=4084c07502a720532f5068169281abff");
+		let response4 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"?api_key=4084c07502a720532f5068169281abff");
 
-				result[i] = $.extend({}, result[i], moviecredit);
-		}
-		console.log(result[i]);
+		let moviecredit = await response3.json();
+		let moviedetail = await response4.json();
+
+			result[i] = $.extend({}, result[i], moviecredit, moviedetail);
+	}
+	console.log(result[i]);
 			
 	}
 	return result;
 
 }
 
-function createMovieCard(moviedata) {
+function createMovieCard(moviedata) 
+{
 
 				var content;
 				var imdbRating;
@@ -60,7 +68,7 @@ function createMovieCard(moviedata) {
 					rating = imdbRating + "/10";	
 
 				// check if there is an IMDB ID to have a URL
-				if (moviedata.imdbID === 'N/A' || moviedata.imdbID === 'undefined' || moviedata.imdbID === undefined || moviedata.imdbID === 'null' || moviedata.imdbID === null || rating === 'N/A')
+				if (moviedata.imdbID === 'N/A' || moviedata.imdbID === 'undefined' || moviedata.imdbID === undefined || moviedata.imdbID === 'null' || moviedata.imdbID === null) //|| rating === 'N/A'
 					imdbURL = "<p> </p>";
 				else
 					imdbURL = "<a href='"+ moviedata.imdbURL +"'>Go to IMDb Page</a>";
