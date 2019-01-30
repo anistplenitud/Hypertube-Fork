@@ -300,39 +300,32 @@
 
     <!--a href=""><i class="fa fa-eye fa-fw" style="color: white;"></i><a-->
     <div class="container-fluid">
-    <div class="row">
-        <div class="column">
-            <p style="color: white; align: center; font-size: 3vw;"></p>
-        </div>
-        <div class="column">
-        </div>
-        <div class="column">
-        </div>
-        <div class="column">
+      <div class="row">
+        <!--div class="column">
             <br />
             <button class="btn"><i class="fa fa-download"></i> Download</button> 
-        </div>
-        <center>
-            <p style="color: white; align: center;">
-                <b>COMMENTS</b>
-            </p>
-
-            <p style="color: white; align: center;">
-            <div class="commentflexbox">
-              <form action="user/commentinfo.php?torrent_id=<?php echo $torrent_id.'&title='.$movie_title; ?>" method=POST id="commentform" accept-charset="UTF-8">
-                <table class=table>
-                  <tr>
-                      <td><h3>Comment</h3></td>
-                      <td><textarea rows="3" cols="50" name="comment_text" form="commentform" required placeholder="Hey, say something :D (max chars:255)"></textarea></td>
-                  </tr>
-                  <tr>
-                      <td><button type="submit" name="submit" required>post comment</button></td>
-                  </tr>
-                </table>
-              </form>
-            </div>
-            </p>
-            <br /> 
+        </div-->
+          <div class="column">
+              <p style="color: white; align: center;">
+                <div>
+                  <form action="user/commentinfo.php?torrent_id=<?php echo $torrent_id.'&title='.$movie_title; ?>" method=POST id="commentform" accept-charset="UTF-8">
+                    <center>
+                      <div class="dialogbox">
+                        <div class="body">
+                          <div class="message">
+                            <textarea rows="4" style="background-color: #333; color: white; width: 100%; box-sizing: border-box; margin-left: auto; margin-right: auto;" name="comment_text" form="commentform" required placeholder="Hey, say something :D (max chars:255)"></textarea>
+                            <button class="btn" style="width: 100%; box-sizing: border-box;" type="submit" name="submit" required>comment</button>
+                          </div>
+                        <div>
+                      <div>
+                    </center>
+                  </form>
+                </div>
+              </p>
+          </div>
+      </div>
+          
+      <br /> 
 
             <p style="color: white; align: center">
               <?php
@@ -341,7 +334,12 @@
                 $stmt->execute();
 
                 echo '
-                <div class="commentflexbox" style="height:650">';
+                
+                <p style="color: white";>
+                  <center><b>COMMENTS</b></center>
+                </p>
+                
+                <div>';
                 
                 while ($com = $stmt->fetch()) {
                   $userid = $com['userid'];
@@ -350,16 +348,23 @@
 
                   $user = $stmt2->fetch();
                   echo '
-                  <div style="display:flex ;color: white; align: center ;height:50px ;width=50% ;background-color: #333333; margin-bottom:10px;">
-                  <img src="'.$user['picture'].'" width=40px height=40px>|'.$user['username'].': '.$com['comment_text'] . '
+                  <div class="dialogbox">
+                    <div class="body">
+                      <span class="tip tip-left"></span>
+                      <div class="message">
+                        <span>
+                          <img src="'.$user['picture'].'" width=50px height=50px> '.$user['username'].': '.$com['comment_text'] . '<br />
+                        </span>
+                      </div>
                     </div>
+                  </div>
                     ';
                 }
                 echo '</div>';
               ?>
             </p>
 
-        </center>
+        
     </div>
 </div>
 <script>
