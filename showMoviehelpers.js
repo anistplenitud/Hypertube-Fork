@@ -1,12 +1,13 @@
 
 async function getMovieDataPromise(result, pageType)
 {
+
 	for(let i = 0; i < result.length; i++) 
 	{
-		let response = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/external_ids?api_key=4084c07502a720532f5068169281abff");
-		let movie = await response.json();
-		let response2 = await fetch("https://www.omdbapi.com/?i="+ movie.imdb_id +"&apikey=1f18a935");
-		let moviedata = await response2.json();
+		let response = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/external_ids?api_key=4084c07502a720532f5068169281abff").catch( function() { console.log( "something went wrong..." ); });
+		let movie = await response.json().catch( function() { console.log( "something went wrong..." ); });;
+		let response2 = await fetch("https://www.omdbapi.com/?i="+ movie.imdb_id +"&apikey=1f18a935").catch( function() { console.log( "something went wrong..." ); });
+		let moviedata = await response2.json().catch( function() { console.log( "something went wrong..." ); });;
 
 	if(moviedata.Response)
 	{	
@@ -31,11 +32,11 @@ async function getMovieDataPromise(result, pageType)
 	}
 	if (pageType == "info")
 	{
-		let response3 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/credits?api_key=4084c07502a720532f5068169281abff");
-		let response4 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"?api_key=4084c07502a720532f5068169281abff");
+		let response3 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/credits?api_key=4084c07502a720532f5068169281abff").catch( function() { console.log( "something went wrong..." ); });
+		let response4 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"?api_key=4084c07502a720532f5068169281abff").catch( function() { console.log( "something went wrong..." ); });
 
-		let moviecredit = await response3.json();
-		let moviedetail = await response4.json();
+		let moviecredit = await response3.json().catch( function() { console.log( "something went wrong..." ); });;
+		let moviedetail = await response4.json().catch( function() { console.log( "something went wrong..." ); });;
 
 			result[i] = $.extend({}, result[i], moviecredit, moviedetail);
 	}
@@ -124,7 +125,11 @@ function createMovieCard(moviedata)
 					</div>`;
 				
 					$('#result').append(content).hide().fadeIn(); 
-				});			
+				})
+				.fail(function() 
+				{
+					console.log("something went wrong..");
+				});		
 		
 }
 		
