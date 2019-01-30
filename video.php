@@ -344,9 +344,14 @@
                 <div class="commentflexbox" style="height:650">';
                 
                 while ($com = $stmt->fetch()) {
+                  $userid = $com['userid'];
+                  $stmt2 = $db->prepare("SELECT * FROM users WHERE id = $userid ORDER BY id DESC");
+                  $stmt2->execute();
+
+                  $user = $stmt2->fetch();
                   echo '
                   <div style="display:flex ;color: white; align: center ;height:50px ;width=50% ;background-color: #333333; margin-bottom:10px;">
-                  ' . $com['userid'].': '.$com['comment_text'] . '
+                  <img src="'.$user['picture'].'" width=40px height=40px>|'.$user['username'].': '.$com['comment_text'] . '
                     </div>
                     ';
                 }
