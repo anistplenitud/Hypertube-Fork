@@ -300,30 +300,27 @@
 
     <!--a href=""><i class="fa fa-eye fa-fw" style="color: white;"></i><a-->
     <div class="container-fluid">
-    <div class="row">
+      <!--center-->
+      <div class="row">
         <!--div class="column">
             <br />
             <button class="btn"><i class="fa fa-download"></i> Download</button> 
         </div-->
-        <div class="column">
-        
-            <p style="color: white; align: center;">
-            <div class="commentflexbox">
-              <form action="user/commentinfo.php?torrent_id=<?php echo $torrent_id.'&title='.$movie_title; ?>" method=POST id="commentform" accept-charset="UTF-8">
-                <center>
-                <table class=table>
-                  <tr>
-                      <td><textarea rows="3" cols="50" style="background-color: #333; color: white;" name="comment_text" form="commentform" required placeholder="Hey, say something :D (max chars:255)"></textarea></td>
-                  </tr>
-                  <tr>
-                    <center><td><button class="btn" type="submit" name="submit" required>post comment</button></td></center>
-                  </tr>
-                </table>
-                </center>
-              </form>
-            </div>
-            </p>
-            <br /> 
+          <div class="column">
+              <p style="color: white; align: center;">
+                <div>
+                  <form action="user/commentinfo.php?torrent_id=<?php echo $torrent_id.'&title='.$movie_title; ?>" method=POST id="commentform" accept-charset="UTF-8">
+                    <center><textarea rows="3" cols="65" style="background-color: #333; color: white; flex: 50%;" name="comment_text" form="commentform" required placeholder="Hey, say something :D (max chars:255)"></textarea></center>
+                    <button class="btn" type="submit" name="submit" required>post comment</button>
+                  </form>
+                </div>
+              </p>
+          </div>
+      </div>
+      <!--/center-->
+
+          
+      <br /> 
 
             <p style="color: white; align: center">
               <?php
@@ -332,12 +329,12 @@
                 $stmt->execute();
 
                 echo '
-                <center>
-                  <p style="color: white";>
-                    <b>COMMENTS</b>
-                  </p>
-                </center>
-                <div class="commentflexbox" style="height:650">';
+                
+                <p style="color: white";>
+                  <center><b>COMMENTS</b></center>
+                </p>
+                
+                <div>';
                 
                 while ($com = $stmt->fetch()) {
                   $userid = $com['userid'];
@@ -351,7 +348,7 @@
                       <span class="tip tip-left"></span>
                       <div class="message">
                         <span>
-                          <img src="'.$user['picture'].'" width=40px height=40px> '.$user['username'].': '.$com['comment_text'] . '
+                          <img src="'.$user['picture'].'" width=50px height=50px> '.$user['username'].': '.$com['comment_text'] . '<br />
                         </span>
                       </div>
                     </div>
