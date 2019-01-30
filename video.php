@@ -310,14 +310,10 @@
                 <div>
                   <form action="user/commentinfo.php?torrent_id=<?php echo $torrent_id.'&title='.$movie_title; ?>" method=POST id="commentform" accept-charset="UTF-8">
                     <center>
-                      <div class="dialogbox">
-                        <div class="body">
-                          <div class="message">
-                            <textarea rows="4" style="background-color: #333; color: white; width: 100%; box-sizing: border-box; margin-left: auto; margin-right: auto;" name="comment_text" form="commentform" required placeholder="Hey, say something :D (max chars:255)"></textarea>
-                            <button class="btn" style="width: 100%; box-sizing: border-box;" type="submit" name="submit" required>comment</button>
-                          </div>
-                        <div>
-                      <div>
+
+                            <textarea rows="4" style="background-color: #333; color: white; width: 97.5vw; box-sizing: border-box; margin-left: auto; margin-right: auto;" name="comment_text" form="commentform" required placeholder="Hey, say something :D (max chars:255)"></textarea>
+                            <button class="btn" style="width: 97.5vw; box-sizing: border-box;" type="submit" name="submit" required>comment</button>
+
                     </center>
                   </form>
                 </div>
