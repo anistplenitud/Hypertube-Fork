@@ -15,167 +15,8 @@ $username = $data['username'];
 $oauth = $data['oauth'];
 $pp = $data['picture'];
 
-
-// var_dump($_FILES);
-// var_dump($_FILES["file"]["file"]);
-if (isset($_FILES["file"]["name"]))
-{
-	echo "here";
-    $allowTypes = array('jpg','png','jpeg');
-    $fileName = basename($_FILES["file"]["name"]);
-    $targetDir = "images/";
-    $targetFilePath = $targetDir . $fileName;
-	$fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
-	
-	if (in_array($fileType, $allowTypes))
-	{
-		move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath);
-		$query = "UPDATE users set picture = :photo where id = :id";
-		$line = $db->prepare($query);
-		$line->bindParam(':photo', $targetFilePath);
-		$line->bindParam(':id', $_SESSION['id']);
-        $line->execute();
-    }
-}
-
-if (isset($_POST['newuser']) && isset($_POST['newuser2']))
-{
-    if ($_POST['newuser'] == $_POST['newuser2'])
-    {
-        $newuser = $_POST['newuser'];
-        $query = "SELECT id FROM users WHERE username = ?";
-        $stmt = $db->prepare( $query );
-        $stmt->bindParam(1, $username);
-        $stmt->execute();
-        $num = $stmt->rowCount();
-        if ($num > 0)
-        {
-          $query = "UPDATE users set username = :user where username = :old";
-          $line = $db->prepare($query);
-          $line->bindParam(':user', $newuser);
-          $line->bindParam(':old', $username);
-          $line->execute();
-          $_SESSION['username'] = $username;
-        }
-    }
-    else
-    {
-        echo "<script type='text/javascript'>alert('Passwords do not match');</script>";
-		exit;
-    }
-}
-else
-{
-}
-if (isset($_POST['passwd']) && isset($_POST['passwd2']))
-{
-  if ($_POST['passwd'] && $_POST['passwd2'])
-  {
-     if ($_POST['passwd'] != $_POST['passwd2'])
-     {
-      echo "<script type='text/javascript'>alert('Password does not match');</script>";
-      exit;
-      }
-    $password = $_POST['oldpasswd'];
-    $newpwd = $_POST['passwd'];
-    if (strlen($password) < 8)
-    {
-      echo "<script type='text/javascript'>alert('Password must be at least characters long');</script>";
-      exit;
-    }
-    if (!preg_match("#[0-9]+#", $password))
-    {
-      echo "<script type='text/javascript'>alert('Password must include at least one number');</script>";
-      exit;
-    }
-    if (!preg_match("#[a-zA-Z]+#", $password))
-    {
-          echo "<script type='text/javascript'>alert('Password must include at least one letter');</script>";
-      exit;
-    }
-    $query = "SELECT id FROM users WHERE password = ?";
-    $pwd = hash('whirlpool', $password);
-    $stmt = $db->prepare( $query );
-    $stmt->bindParam(1, $pwd);
-    $stmt->execute();
-    $num = $stmt->rowCount();
-    if ($num > 0)
-    {
-      $newpwd = hash('whirlpool', $newpwd);
-      $query = "UPDATE users set password = :pwd where password = :old";
-      $line = $db->prepare($query);
-      $line->bindParam(':pwd', $newpwd);
-      $line->bindParam(':old', $pwd);
-      if ($line->execute())
-          echo "Password successfully changed.";
-    }
-    else
-      echo "You entered a wrong old password";
-  }
-}
-else
-{}
-if (isset($_POST['email1']) && isset($_POST['email2']))
-{
-  $email = trim($_POST['email1']);
-	if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-	{
-		echo "<script type='text/javascript'>alert('Please use a valid email addresss');</script>";
-		exit ;
-  }
-    $oldemail = $_POST['oldemail'];
-	$query = $db->prepare("SELECT * FROM users WHERE email = :name");
-	$query->bindParam(':name', $email);
-	$query->execute();
-	if ($query->rowcount() > 0)
-	{
-		echo "<script type='text/javascript'>alert('Email already has an account');</script>";
-	 	exit;
-    }
-    ###### updates ##########################
-    $query = "UPDATE users set verified = :zero where email = :old";
-    $zero = 0;
-    $line = $db->prepare($query);
-    $line->bindParam(':zero', $zero);
-    $line->bindParam(':old', $oldemail);
-    $line->execute();
-    $verificationCode = md5(uniqid("something", true));
-	$verificationLink = "http://localhost:8080/matcha/login.php?code=" . $verificationCode;
-	$htmlStr = "";
-	$htmlStr .= "Hi " . $email . ",<br /><br />";
-	$htmlStr .= "Please click the button below to verify your subscription and have access to the Matcha website.<br /><br /><br />";
-	$htmlStr .= "<a href='{$verificationLink}' target='_blank' style='padding:1em; font-weight:bold; background-color:blue; color:#fff;'>VERIFY EMAIL</a><br /><br /><br />";
-	$htmlStr .= "Kind regards,<br />";
-	$htmlStr .= "<a href='http://localhost:8080/matcha/' target='_blank'>Matcha</a><br />";
-	$name = "Matcha";
-	$email_sender = "no-reply@matcha.com";
-	$subject = "Verification Link | Matcha | Registration";
-	$recipient_email = $email;
-	$headers  = "MIME-Version: 1.0\r\n";
-	$headers .= "Content-type: text/html; charset=iso-8859-1\r\n";
-	$headers .= "From: {$name} <{$email_sender}> \n";
-	$body = $htmlStr;
-	if (mail($recipient_email, $subject, $body, $headers) )
-        echo "<script type='text/javascript'>alert('An email has been sent to you, click on it to verify your account and log in');</script>";
-	$table = "users";
-	$sql = "UPDATE users set email = :newemail, token = :token where email = :old";
-    $stmt= $db->prepare($sql);
-	$stmt->bindParam(':newemail', $email);
-    $stmt->bindParam(':token', $verificationCode);
-    $stmt->bindParam(':old', $oldemail);
-	$stmt->execute();
-    ####################end here ############################
-    if ($line->execute())
-     {
-         header("Location: logout.php");
-     }
-    else
-    {
-        echo "<script type='text/javascript'>alert('Email already has an account');</script>";
-        exit;
-    }
-}
 ?>
+
 <!DOCTYPE html>
 <html>
 <title></title>
@@ -276,15 +117,15 @@ if (isset($_POST['email1']) && isset($_POST['email2']))
 	<div id="google_translate_element"></div>
 <div class="topnav" id="myTopnav">
 		<a class="navbar-brand" href="#">
-    		<img src="<?php echo $pp?>" alt="profile picture" style="width:40px;">
+			<img src="<?php echo $pp?>" alt="profile picture" style="width:40px;">
 		</a>
 		<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-        	<?php echo $username ?>
-      	</a>
+			<?php echo $username ?>
+		</a>
 		<div class="dropdown-menu">
-        	<a class="dropdown-item" href="./profile.php">My Profile</a>
-        	<a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
-    	</div>
+			<a class="dropdown-item" href="./profile.php">My Profile</a>
+			<a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
+		</div>
 		<center>
 		<div class="topnav-centered">
 			<a href="/Hypertube/home.php"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
@@ -301,12 +142,12 @@ if (isset($_POST['email1']) && isset($_POST['email2']))
 </head>
 <body class="container">
 <h1> Change Profile Picture </h1>
-<form action="" method="post" enctype="multipart/form-data">
-    Select image to upload:
-    <input type="file" name="file" id="file">
-    <input type="submit" value="Upload Image" name="submit">
+<form action="modProfileImg.php" method="post" enctype="multipart/form-data">
+	Select image to upload:
+	<input type="file" name="file" id="file">
+	<input type="submit" value="Upload Image" name="submit">
 </form>
-<form action="" method="post">
+<form action="modUsername.php" method="post">
 	<h1> Change Username</h1>
   <label for="email" class="minor"><b>New Username</b></label>
   <input type="text" placeholder="Enter Username" name="newuser" required>
@@ -318,7 +159,7 @@ if (isset($_POST['email1']) && isset($_POST['email2']))
  </div>
 </form>
 <?php if ($oauth == 0): ?>
-<form action="" method="post">
+<form action="modPassword.php" method="post">
 <div>
   <h1>Password</h1>
   <label for="psw" class="minor" ><b>Old Password</b></label>
@@ -333,21 +174,45 @@ if (isset($_POST['email1']) && isset($_POST['email2']))
   <button type="submit">reset password</button>
  </div>
 </form>
-<form action="" method="post">
-<div>
-<h1>Email</h1>
-		<label for="email" class="minor"><b>Old Email</b></label>
-		<input type="text" placeholder="Enter Email" name="oldemail" required>
-	<br /><br />
-  <label for="email" class="minor"><b>New Email</b></label>
-		<input type="text" placeholder="Enter Email" name="email1" required>
-	<br /><br />
-  <label for="email" class="minor"><b>Email</b></label>
-		<input type="text" placeholder="Enter Email" name="email2" required>
-	<br /><br />
-  <button type="submit">change email</button>
- </div>
+<form action="modEmail.php" method="post">
+	<div>
+		<h1>Email</h1>
+				<label for="email" class="minor"><b>Old Email</b></label>
+				<input type="text" placeholder="Enter Email" name="oldemail" required>
+			<br /><br />
+			<label for="email" class="minor"><b>New Email</b></label>
+				<input type="text" placeholder="Enter Email" name="email1" required>
+			<br /><br />
+			<label for="email" class="minor"><b>Email</b></label>
+				<input type="text" placeholder="Enter Email" name="email2" required>
+			<br /><br />
+			<button type="submit">change email</button>
+	</div>
  </form>
 <?php endif; ?>
+	<script type="text/javascript">
+
+			$("form").submit(function(event) 
+			{
+				event.preventDefault(); // Prevent the form from submitting via the browser
+				
+				$.ajax(
+				{
+					url: $(this).attr("action"),
+					type: $(this).attr("method"),
+					data: new FormData(this),
+					processData: false,
+					contentType: false,
+					// success: function (data, status)
+					// {
+					// 	console.log(data);
+					// },
+					// error: function (xhr, desc, err)
+					// {
+					// 	console.log(err);
+					// }
+				});  
+			});
+	</script>
 </body>
 </html>

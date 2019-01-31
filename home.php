@@ -4,10 +4,6 @@ ini_set('display_startup_errors', 1);
 require_once("setup.php");
 error_reporting(E_ALL);
 session_start(); 
-	
-	if (!isset($_SESSION['id'])) {
-		header ('Location: ./');
-	}
 
 	$db->exec("USE hypertube");
 	$query = $db->prepare("SELECT * FROM users WHERE id = :id");
@@ -17,7 +13,14 @@ session_start();
 	$username = $data['username'];
 	$profilep = $data['picture'];
 
+
+	if (!isset($_SESSION['id'])) 
+	{
+		header ('Location: ./');
+	}
+
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -136,7 +139,10 @@ session_start();
 	<div id="google_translate_element"></div>
 	<div class="topnav" id="myTopnav">
 		<a class="navbar-brand" href="#">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9d0ae82c5fd22b0b1e1fba74028f6e00691fbf44
     		<img src="<?php echo $profilep ?>" alt="profile picture" style="width:40px;">
 		</a>
 		<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -146,7 +152,10 @@ session_start();
         	<a class="dropdown-item" href="./profile.php">My Profile</a>
         	<a class="dropdown-item" href="./logout.php">Logout</a>
     	</div>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9d0ae82c5fd22b0b1e1fba74028f6e00691fbf44
 		<center>
 		<div class="topnav-centered">
 			<a href="#"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
