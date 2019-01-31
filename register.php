@@ -56,7 +56,7 @@ if ($_POST['email'] && $_POST['username'] && $_POST['password'] && $_POST['passw
 		exit;
 	}     
 	$verificationCode = md5(uniqid("something", true));
-	$verificationLink = "http://localhost:8080/hypertube/signup.php?code=" . $verificationCode;
+	$verificationLink = "http://localhost:8080/hypertube/index.php?code=" . $verificationCode;
 	$htmlStr = "";
 	$htmlStr .= "Hi " . $email . ",<br /><br />";
 	$htmlStr .= "Please click the button below to verify your account and have access to the Hypertube website.<br /><br /><br />";
@@ -87,6 +87,6 @@ if ($_POST['email'] && $_POST['username'] && $_POST['password'] && $_POST['passw
 	$stmt->bindParam(':token', $verificationCode);
 	$stmt->bindParam(':picture', $picture);
 	$stmt->execute();
-	header('Location: signup.php?email=yes');
+	header('Location: index.php?email=yes');
 }
 ?>
