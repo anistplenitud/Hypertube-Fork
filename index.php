@@ -10,6 +10,17 @@ $loginurl = $helper->getLoginUrl($redirecturl, $permissions);
 
 $gloginurl = $client->createAuthUrl();
 $loginurl42 = "https://api.intra.42.fr/oauth/authorize?client_id=61d50a325b359a90c18726e2bf5c95c8c914ce04f80cd5a0b26c7a0af166d397&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2FHypertube%2F42-callback.php&response_type=code";
+
+if (isset($_GET['email']))
+{
+  echo "<script type='text/javascript'>alert('Please chek your email to verify account');</script>";
+}
+
+if (isset($_GET['err']))
+{
+  echo "<script type='text/javascript'>alert('Username and password do not match or Account is not yet verified.');</script>";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -365,8 +376,8 @@ if (isset($_GET['code']))
 	$query = "UPDATE users set verified = '1' where token = :verification_code";
 	$line = $db->prepare($query);
 	$line->bindParam(':verification_code', $code);
-	if ($line->execute())
-	  echo "Your email has been verified. You may now log in.";
+  if ($line->execute())
+      echo "<script type='text/javascript'>alert('Account successfully verified.');</script>";
 	else
 	 {
 				echo "Failed to verify email";
@@ -375,7 +386,7 @@ if (isset($_GET['code']))
   }
   else
    {
-			echo "Verification token is invalid. Please try again.";
+      echo "<script type='text/javascript'>alert('Account successfully verified.');</script>";
 			exit;
 	 }
 }

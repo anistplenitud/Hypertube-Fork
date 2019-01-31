@@ -10,7 +10,7 @@ function	userexists($user, $pwd)
 {
 	$host = "localhost";
 	$dbname = "hypertube";
-	$db = new PDO("mysql:host=$host", "root", "codecrazy");
+	$db = new PDO("mysql:host=$host", "root", "123456");
 	//$db  = new PDO("mysql:host=localhost;dbname=$dbname", $username, $password);
 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$db->query("USE ".$dbname);
@@ -59,6 +59,9 @@ if (isset($user) && isset($pwd))
 		header("Location: home.php?user=".$user);
 	}
 	else
-		echo "Username and password do not match or Account is not yet verified";
+	{
+		echo "<script type='text/javascript'>alert('Username and password do not match or Account is not yet verified.');</script>";
+		header("Location: index.php?err=yes");
+	}
 }
 ?>
