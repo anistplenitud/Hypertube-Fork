@@ -5,12 +5,8 @@ error_reporting(E_ALL);
 
 $host = "localhost";
 $username = "root";
-<<<<<<< HEAD
 $password = "codecrazy";
-=======
-$password = "123456";
 
->>>>>>> 7931642719d2950418b9a8442b581630789048d3
 $table = "users";
 $dbname = "hypertube";
 $db = null;

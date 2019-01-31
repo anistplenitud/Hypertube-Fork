@@ -211,6 +211,11 @@ session_start();
 		//	console.log(cast);
 			var crew = fillTable(result.crew, "crew");
 		//	console.log(crew);
+		console.log( result.genres );
+		var genres = []
+		result.genres.forEach((gen)=>{
+			genres.push(gen.name);
+		});
 			window.title = result.Title;
 					// this is creating a div with the content inside of it
 					content =
@@ -235,7 +240,7 @@ session_start();
 									</div>
 								</div>
 								<div class="col-sm-8 gallery-pad">
-									<p><b>Genre:</b> `+ result.genres +`</p>
+									<p><b>Genre:</b> `+genres+`</p>
 									<br>
 									<p><b>Plot:</b> `+ result.Plot +`</p>
 									<br>
