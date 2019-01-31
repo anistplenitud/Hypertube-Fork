@@ -23,14 +23,14 @@ input
 	display: block;
 	border: none;
 	background: transparent;
-	border-bottom: 1px solid #888888;
+/*    border-bottom: 1px solid #888888;*/
 }
 
 input:focus
 {
 	color: white;
 	outline: none;
-	border-bottom: 2px solid #9933CC;
+/*    border-bottom: 2px solid #9933CC;*/
 }
 button:focus
 {
@@ -135,7 +135,7 @@ input[type=text] {
 	border-radius: 4px;
 	font-size: 16px;
 	background-color: #333;
-	color: white;
+	color: #888888;
 	/*background-image: url('searchicon.png');*/
 	background-position: 10px 10px; 
 	background-repeat: no-repeat;
@@ -144,14 +144,18 @@ input[type=text] {
 	transition: width 0.4s ease-in-out;
 }
 
-input[type=text]:focus {
+input[type=text]:focus 
+{
 	width: 80%;
+	border: 2px solid #9933CC;
+	color: white;
 }
 body {
 	font-family: Arial;
 	/*background-color: rgb(66, 66, 68);*/
 	background-color: #333;
 }
+
 .topnav-centered a {
 	  position: relative;
 	  top: 0;
@@ -205,4 +209,11 @@ body {
 	font-size: 14px;
 	line-height: 1.5;
 	color: white;
+}
+
+select
+{
+  width: -webkit-fill-available;
+  text-align: center;
+  text-align-last: center;
 }
