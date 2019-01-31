@@ -1,5 +1,5 @@
 <?php
-<<<<<<< HEAD
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 require_once("setup.php");
@@ -18,7 +18,6 @@ $query->bindParam(":id", $_SESSION['id']);
 $query->execute();
 $data = $query->fetch(PDO::FETCH_ASSOC);
 $username = $data['username'];
-=======
   session_start();
 
   if (!isset($_SESSION['id'])) {
@@ -28,10 +27,6 @@ $username = $data['username'];
 
   $torrent_id = $_GET['torrent_id'];
   $movie_title = $_GET['title'];
-
-  
-
->>>>>>> 7931642719d2950418b9a8442b581630789048d3
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -293,7 +288,6 @@ $username = $data['username'];
 <body>
 <div id="google_translate_element"></div>
 <div class="topnav" id="myTopnav">
-<<<<<<< HEAD
     <a class="navbar-brand" href="#">
         <img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
     </a>
@@ -309,7 +303,6 @@ $username = $data['username'];
       <a href="/Hypertube/home.php"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
     </div>
     </center>
-=======
 	<a class="navbar-brand" href="#">
 		<img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
 	</a>
@@ -325,7 +318,6 @@ $username = $data['username'];
 	  <a href="/Hypertube/home.php"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
 	</div>
 	</center>
->>>>>>> 7931642719d2950418b9a8442b581630789048d3
 </div>
 
 	<br />
