@@ -1,14 +1,22 @@
 <?php
-  session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+require_once("setup.php");
+error_reporting(E_ALL);
+session_start();
 
-  if (!isset($_SESSION['id'])) {
-    header ('Location: ./');
-  }
-  require_once('setup.php');
+if (!isset($_SESSION['id'])) {
+  header ('Location: ./');
+}
 
-  $torrent_id = $_GET['torrent_id'];
-  $movie_title = $_GET['title'];
-
+$torrent_id = $_GET['torrent_id'];
+$movie_title = $_GET['title'];
+$db->exec("USE hypertube");
+$query = $db->prepare("SELECT * FROM users WHERE id = :id");
+$query->bindParam(":id", $_SESSION['id']);
+$query->execute();
+$data = $query->fetch(PDO::FETCH_ASSOC);
+$username = $data['username'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -277,7 +285,7 @@
           <?php echo $_SESSION['first_name']?>
         </a>
     <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">My Profile</a>
+          <a class="dropdown-item" href="./profile.php">My Profile</a>
           <a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
       </div>
     <center>

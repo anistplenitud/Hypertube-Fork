@@ -343,12 +343,12 @@ function googleTranslateElementInit() {
 <?php
 require_once("setup.php");
 
-if (isset($_GET['email']))
-{
-  echo '<div background-color="white">';
-  echo '<b> Check your email to verify your account </b>';
-  echo '</div>';
-}
+// if (isset($_GET['email']))
+// {
+//   echo '<div background-color="white">';
+//   echo '<b> Check your email to verify your account </b>';
+//   echo '</div>';
+// }
 
 if (isset($_GET['code']))
 {
