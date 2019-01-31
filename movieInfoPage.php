@@ -248,7 +248,7 @@ error_reporting(E_ALL);
 		<div id="target">
 		</div>
 			<button class="btn"><i class="fa fa-download"></i> Download</button> 
-			<button id='importantStream' class="btn" onclick="downloadQuery('`+result.Title+` `+result.Year+`')"><i class="fa fa-tv"></i> Stream</button>
+			<button id='importantStream' class="btn" onclick="downloadQuery('`+result.Title+` `+result.Year+`'); isWatched();"><i class="fa fa-tv"></i> Stream</button>
 		</div>
 	</center>
 								</div>
@@ -359,6 +359,7 @@ error_reporting(E_ALL);
 	function isWatched()
 	{
 		// simple ajax post call to send information to updateWatched.php
+		console.log("in function");
 		let url = 'updateWatched.php';
 
 		$.post( url, {movieID:val})
