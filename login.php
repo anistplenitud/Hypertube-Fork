@@ -11,6 +11,7 @@ function	userexists($user, $pwd)
 	$host = "localhost";
 	$dbname = "hypertube";
 	$db = new PDO("mysql:host=$host", "root", "codecrazy");
+	//$db  = new PDO("mysql:host=localhost;dbname=$dbname", $username, $password);
 	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	$db->query("USE ".$dbname);
 	$pswd = hash('whirlpool', $pwd);
@@ -36,26 +37,26 @@ if (isset($user) && isset($pwd))
 	{
 		session_start();
 		$query = "SELECT id FROM users where username = :user";
-    	$line = $db->prepare($query);
+		$line = $db->prepare($query);
 		$line->bindParam(':user', $user);
 		$id = $line->execute();
 		$_SESSION["user_id"] = $id;
 		$query = "SELECT * FROM users where username = :user";
-    	$line = $db->prepare($query);
+		$line = $db->prepare($query);
 		$line->bindParam(':user', $user);
 		$email = $line->execute();
 		while ($row = $line->fetch(PDO::FETCH_ASSOC))
-        {
-            $email = $row;
-        }
+		{
+			$email = $row;
+		}
 		$_SESSION['email'] = $email["email"];
-  		$_SESSION["username"] = $user;
-        $_SESSION["logged_in"] = true;
-        $_SESSION["id"] = $email['id'];
-        $_SESSION["first_name"] = $email["name"];
-        $_SESSION["last_name"] = $email["surname"];
-        $_SESSION["email"] = $email["email"];
-        header("Location: home.php?user=".$user);
+		$_SESSION["username"] = $user;
+		$_SESSION["logged_in"] = true;
+		$_SESSION["id"] = $email['id'];
+		$_SESSION["first_name"] = $email["name"];
+		$_SESSION["last_name"] = $email["surname"];
+		$_SESSION["email"] = $email["email"];
+		header("Location: home.php?user=".$user);
 	}
 	else
 		echo "Username and password do not match or Account is not yet verified";

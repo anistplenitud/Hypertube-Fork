@@ -1,15 +1,13 @@
 
 async function getMovieDataPromise(result, pageType)
 {
+
 	for(let i = 0; i < result.length; i++) 
 	{
-		let response = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/external_ids?api_key=4084c07502a720532f5068169281abff");
-		let movie = await response.json();
-		let response2 = await fetch("https://www.omdbapi.com/?i="+ movie.imdb_id +"&apikey=1f18a935");
-		let moviedata = await response2.json();
-
-		console.log(movie);
-		console.log(moviedata);
+		let response = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/external_ids?api_key=4084c07502a720532f5068169281abff").catch( function() { console.log( "something went wrong..." ); });
+		let movie = await response.json().catch( function() { console.log( "something went wrong..." ); });;
+		let response2 = await fetch("https://www.omdbapi.com/?i="+ movie.imdb_id +"&apikey=1f18a935").catch( function() { console.log( "something went wrong..." ); });
+		let moviedata = await response2.json().catch( function() { console.log( "something went wrong..." ); });;
 
 	if(moviedata.Response)
 	{	
@@ -31,22 +29,26 @@ async function getMovieDataPromise(result, pageType)
 				result[i].Website = moviedata.Website;
 			}
 			
-		}
-		if (pageType == "info")
-		{
-			let response3 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/credits?api_key=4084c07502a720532f5068169281abff");
-			let moviecredit = await response3.json();
+	}
+	if (pageType == "info")
+	{
+		let response3 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"/credits?api_key=4084c07502a720532f5068169281abff").catch( function() { console.log( "something went wrong..." ); });
+		let response4 = await fetch("https://api.themoviedb.org/3/movie/"+ result[i].id +"?api_key=4084c07502a720532f5068169281abff").catch( function() { console.log( "something went wrong..." ); });
 
-				result[i] = $.extend({}, result[i], moviecredit);
-		}
-		console.log(result[i]);
+		let moviecredit = await response3.json().catch( function() { console.log( "something went wrong..." ); });;
+		let moviedetail = await response4.json().catch( function() { console.log( "something went wrong..." ); });;
+
+			result[i] = $.extend({}, result[i], moviecredit, moviedetail);
+	}
+	console.log(result[i]);
 			
 	}
 	return result;
 
 }
 
-function createMovieCard(moviedata) {
+function createMovieCard(moviedata) 
+{
 
 				var content;
 				var imdbRating;
@@ -60,7 +62,7 @@ function createMovieCard(moviedata) {
 					rating = imdbRating + "/10";	
 
 				// check if there is an IMDB ID to have a URL
-				if (moviedata.imdbID === 'N/A' || moviedata.imdbID === 'undefined' || moviedata.imdbID === undefined || moviedata.imdbID === 'null' || moviedata.imdbID === null || rating === 'N/A')
+				if (moviedata.imdbID === 'N/A' || moviedata.imdbID === 'undefined' || moviedata.imdbID === undefined || moviedata.imdbID === 'null' || moviedata.imdbID === null) //|| rating === 'N/A'
 					imdbURL = "<p> </p>";
 				else
 					imdbURL = "<a href='"+ moviedata.imdbURL +"'>Go to IMDb Page</a>";
@@ -92,30 +94,42 @@ function createMovieCard(moviedata) {
 				else
 					originalTitle = ""
 				
+				var viewed;
+				$.post('checkWatched.php', {movieID:moviedata.imdbID})
+				.done(function( data ) 
+				{
+					if (data > 0)
+						viewed = "display:block;"; 
+					else
+						viewed = "display:none;"; 
 
-				// this is creating a div with the content inside of it
-				content = 
-				`<div id="`+ moviedata.imdbID +`"class="moviecards col-sm-4 card border-secondary sm-3" style="max-width: 20rem; min-width: 20rem; align-items: center; border-color: #9933CC;" onmouseover="movieHoverIn(this)" onmouseout="movieHoverOut(this)" onclick="loadInfo('`+ moviedata.imdbID +`','`+moviedata.Year+`')">
-					<div class="card-header">
-						<h5 class="card-title" style="`+ titleSize +`">`+ moviedata.title +`</h5>
-						`+ originalTitle +`
-					</div>
-					<div class="card-body">
-						<i class="far fa-eye" style="float: right; font-size: large; display:none;"></i>
-						<br>
-						<img src="` + srcImage + `" style="width: 100%; height: 450px; spadding-top: 0.5rem;"/>
-						<br>
-						<p text-muted>Year Released: ` + yearRelease +`</p>
-					</div>
-					<div class="card-footer">
-						<p><i class="fas fa-star"></i> `+ rating +`</p>
-						<br>
-						`+ imdbURL +`
-					</div>
-				</div>`;
-			
-				$('#result').append(content).hide().fadeIn(); 
+					// this is creating a div with the content inside of it
+					content = 
+					`<div id="`+ moviedata.imdbID +`"class="moviecards col-sm-4 card border-secondary sm-3" style="max-width: 20rem; min-width: 20rem; align-items: center; border-color: #9933CC;" onmouseover="movieHoverIn(this)" onmouseout="movieHoverOut(this)" onclick="loadInfo('`+ moviedata.imdbID +`','`+moviedata.Year+`')">
+						<div class="card-header">
+							<h5 class="card-title" style="`+ titleSize +`">`+ moviedata.title +`</h5>
+							`+ originalTitle +`
+						</div>
+						<div class="card-body">
+							<i class="far fa-eye" style="float: right; font-size: large; `+ viewed +`"></i>
+							<br>
+							<img src="` + srcImage + `" style="width: 100%; height: 450px; spadding-top: 0.5rem;"/>
+							<br>
+							<p text-muted>Year Released: ` + yearRelease +`</p>
+						</div>
+						<div class="card-footer">
+							<p><i class="fas fa-star"></i> `+ rating +`</p>
+							<br>
+							`+ imdbURL +`
+						</div>
+					</div>`;
+				
+					$('#result').append(content).hide().fadeIn(); 
+				})
+				.fail(function() 
+				{
+					console.log("something went wrong..");
+				});		
 		
 }
-
 		

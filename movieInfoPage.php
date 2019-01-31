@@ -116,6 +116,7 @@ session_start();
 	<div id="google_translate_element"></div>
 <div class="topnav" id="myTopnav">
 		<a class="navbar-brand" href="#">
+<<<<<<< HEAD
     		<img src="<?php echo $picturep?>" alt="profile picture" style="width:40px;">
 		</a>
 		<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -125,6 +126,17 @@ session_start();
         	<a class="dropdown-item" href="./profile.php">My Profile</a>
         	<a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
     	</div>
+=======
+			<img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
+		</a>
+		<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			<?php echo $_SESSION['first_name']?>
+		</a>
+		<div class="dropdown-menu">
+			<a class="dropdown-item" href="#">My Profile</a>
+			<a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
+		</div>
+>>>>>>> 7931642719d2950418b9a8442b581630789048d3
 		<center>
 		<div class="topnav-centered">
 			<a href="/Hypertube/home.php"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
@@ -153,6 +165,7 @@ session_start();
 			getMovieDataPromise(arr,"info").then(function(movie){
 				var result = movie[0];
 
+				console.log("result");
 				console.log(result);
 
 				//ERROR CHECKING - so as not to get funny values displaying
@@ -165,8 +178,8 @@ session_start();
 
 			// check if there is an IMDB ID to have a URL
 			var imdbURL;
-			if (result.imdbID === 'N/A' || result.imdbID === 'undefined' || result.imdbID === undefined || result.imdbID === 'null' || result.imdbID === null || rating === 'N/A')
-				imdbURL = "<p> </p>";
+			if (result.imdbID === 'N/A' || result.imdbID === 'undefined' || result.imdbID === undefined || result.imdbID === 'null' || result.imdbID === null) 
+				imdbURL = "<p> </p>"; //rating === 'N/A'
 			else
 				imdbURL = "<a href='"+ result.imdbURL +"'>Go to IMDb Page</a>";
 
@@ -177,7 +190,7 @@ session_start();
 
 			// check if there is a movie poster avaliable
 			var srcImage;
-			if (result.poster_path)
+			if (!(result.poster_path === null) || !(result.poster_path === undefined))
 				srcImage = "https://image.tmdb.org/t/p/w342" + result.poster_path;
 			else if (!(result.Poster === 'N/A' || result.Poster === undefined))
 				srcImage = result.Poster;
@@ -227,11 +240,11 @@ session_start();
 									<p><b>Plot:</b> `+ result.Plot +`</p>
 									<br>
 									 <center>
-        <div class="col">
-            <button class="btn"><i class="fa fa-download"></i> Download</button> 
-            <button class="btn" onclick="downloadQuery('`+result.Title+` `+result.Year+`')"><i class="fa fa-tv"></i> Stream</button>
-        </div>
-    </center>
+		<div class="col">
+			<button class="btn"><i class="fa fa-download"></i> Download</button> 
+			<button class="btn" onclick="downloadQuery('`+result.Title+` `+result.Year+`')"><i class="fa fa-tv"></i> Stream</button>
+		</div>
+	</center>
 								</div>
 
 							</div>
@@ -289,7 +302,7 @@ session_start();
 
 			let srcImage;
 			if (!(result[i].profile_path === null))
-			srcImage = "https://image.tmdb.org/t/p/w90_and_h90_face/" + result[i].profile_path; // w342 //https://image.tmdb.org/t/p/w90_and_h90_face/kU3B75TyRiCgE270EyZnHjfivoq.jpg
+				srcImage = "https://image.tmdb.org/t/p/w90_and_h90_face/" + result[i].profile_path; // w342 //https://image.tmdb.org/t/p/w90_and_h90_face/kU3B75TyRiCgE270EyZnHjfivoq.jpg
 			else
 				srcImage = "http://i63.tinypic.com/2hp39tg.png"
 			
@@ -309,62 +322,89 @@ session_start();
 
 
 
-    <br />
+	<br />
 
-    <script>
-      var val = "<?php echo $_GET['id'] ?>";
-      
+	<script>
+	 var val = "<?php echo $_GET['id'] ?>";
+	  
 
-      function sendobj_to_video() {
-        window.open("http://localhost:8080/Hypertube/video.php?torrent_id=" +val+"&title="+window.title);
-      }
-
-        function myFunction() {
-          var x = document.getElementById("myTopnav");
-          if (x.className === "topnav") {
-            x.className += " responsive";
-          } else {
-            x.className = "topnav";
-          }
-        }
-
-    function downloadQuery(movie, status = true) {
-	var movieName = movie;//(movie != null && movie != 'undefined') ? document.getElementById('movie_name').value : movie;
-	var xhr = new XMLHttpRequest();
-
-	if (status == true) {
-		var address = "http://localhost:3000/startDownload/" + movieName;
-	}
-	else {
-		var address = "http://localhost:3000/checkStatus";
+	function sendobj_to_video() 
+	{
+		window.open("http://localhost:8080/Hypertube/video.php?torrent_id=" +val+"&title="+window.title);
 	}
 
-	xhr.open('GET', address, true);
-
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState == 4 && xhr.status == 200) {
-			if (xhr.responseText != 'failed' && xhr.responseText != 'Pending') {
-
-				var target = document.getElementById('result');
-				target.innerHTML = '<button id="startStream_button" value="' + xhr.responseText + '" onclick="startStreamQuery(this)">Start Stream</button></a>';
-				ready = true;
-				console.log(xhr.responseText);
-
-			}
-			else if (xhr.responseText == 'failed') {
-				var target = document.getElementById('result');
-				target.innerHTML = "<h2>" + xhr.responseText + "</h2>";
-			}
-			else {
-				var target = document.getElementById('result');
-				target.innerHTML = "<h2>" + xhr.responseText + "</h2>";
-				downloadQuery(movieName, false);
-			}
+	function myFunction() 
+	{
+		var x = document.getElementById("myTopnav");
+		if (x.className === "topnav") 
+		{
+			x.className += " responsive";
+		} 
+		else 
+		{
+			x.className = "topnav";
 		}
 	}
 
-	xhr.send();
-}
+	function isWatched()
+	{
+		// simple ajax post call to send information to updateWatched.php
+		let url = 'updateWatched.php';
+
+		$.post( url, {movieID:val})
+		.done(function( data ) 
+		{
+			if (data > 0)
+				console.log("View added");
+			else
+				console.log("something went wrong");
+		});
+	}
+	
+	function downloadQuery(movie, status = true) 
+	{
+
+		isWatched(); // Hijacking Dante's function to call the viewing function since this function is fired when the button is pressed
+		var movieName = movie;//(movie != null && movie != 'undefined') ? document.getElementById('movie_name').value : movie;
+		var xhr = new XMLHttpRequest();
+
+		if (status == true) {
+			var address = "http://localhost:3000/startDownload/" + movieName;
+		}
+		else {
+			var address = "http://localhost:3000/checkStatus";
+		}
+
+		xhr.open('GET', address, true);
+
+		xhr.onreadystatechange = function () 
+		{
+			if (xhr.readyState == 4 && xhr.status == 200) {
+				if (xhr.responseText != 'failed' && xhr.responseText != 'Pending') 
+				{
+
+					var target = document.getElementById('result');
+					target.innerHTML = '<button id="startStream_button" value="' + xhr.responseText + '" onclick="startStreamQuery(this)">Start Stream</button></a>';
+					ready = true;
+					console.log(xhr.responseText);
+
+				}
+				else if (xhr.responseText == 'failed') 
+				{
+					var target = document.getElementById('result');
+					target.innerHTML = "<h2>" + xhr.responseText + "</h2>";
+				}
+				else 
+				{
+					var target = document.getElementById('result');
+					target.innerHTML = "<h2>" + xhr.responseText + "</h2>";
+					downloadQuery(movieName, false);
+				}
+			}
+		}
+
+		xhr.send();
+	}
 
 var ready = false;
 
@@ -391,9 +431,9 @@ if (ready == true)
 	var startStream_button = document.getElementById('startStream_button');
 	startStream_button.addEventListener('click', switchPage); 
 }
-    </script>
+	</script>
 
-    <script type="text/javascript">
+	<script type="text/javascript">
 function googleTranslateElementInit() {
   new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
 }
