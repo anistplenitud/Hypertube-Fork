@@ -279,48 +279,6 @@ $username = $data['username'];
 	</style>
 </head>
 <body>
-<<<<<<< HEAD
-=======
-<div id="google_translate_element"></div>
-<div class="topnav" id="myTopnav">
-    <a class="navbar-brand" href="#">
-        <img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
-    </a>
-    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-          <?php echo $_SESSION['first_name']?>
-        </a>
-    <div class="dropdown-menu">
-          <a class="dropdown-item" href="./profile.php">My Profile</a>
-          <a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
-      </div>
-    <center>
-    <div class="topnav-centered">
-      <a href="/Hypertube/home.php"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
-    </div>
-    </center>
-	<a class="navbar-brand" href="#">
-		<img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
-	</a>
-	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-		  <?php echo $_SESSION['first_name']?>
-		</a>
-	<div class="dropdown-menu">
-		  <a class="dropdown-item" href="#">My Profile</a>
-		  <a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
-	  </div>
-	<center>
-	<div class="topnav-centered">
-	  <a href="/Hypertube/home.php"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
-	</div>
-	</center>
-</div>
->>>>>>> 9d0ae82c5fd22b0b1e1fba74028f6e00691fbf44
-
-
-
-
-
-
 	<!--a href=""><i class="fa fa-eye fa-fw" style="color: white;"></i><a-->
 	<div class="container-fluid">
 	  <div class="row">
