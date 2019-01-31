@@ -127,10 +127,6 @@ error_reporting(E_ALL);
         	<a class="dropdown-item" href="./profile.php">My Profile</a>
         	<a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
     	</div>
-<<<<<<< HEAD
-
-=======
->>>>>>> 9d0ae82c5fd22b0b1e1fba74028f6e00691fbf44
 		<center>
 		<div class="topnav-centered">
 			<a href="/Hypertube/home.php"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
