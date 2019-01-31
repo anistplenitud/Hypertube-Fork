@@ -146,15 +146,6 @@ session_start();
         	<a class="dropdown-item" href="./profile.php">My Profile</a>
         	<a class="dropdown-item" href="./logout.php">Logout</a>
     	</div>
-			<img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
-		</a>
-		<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-			<?php echo $_SESSION['first_name']?>
-		</a>
-		<div class="dropdown-menu">
-			<a class="dropdown-item" href="#">My Profile</a>
-			<a class="dropdown-item" href="./logout.php">Logout</a>
-		</div>
 		<center>
 		<div class="topnav-centered">
 			<a href="#"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
