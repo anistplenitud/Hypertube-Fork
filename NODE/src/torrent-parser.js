@@ -5,7 +5,6 @@ const crypto = require('crypto');
 const Buffer = require('buffer').Buffer;
 const Uint64BE = require('int64-buffer').Uint64BE;
 const BN = require('bn.js');
-const bignum = require('bignum');
 const downloadFile = require('download');
 
 module.exports.openBencode = (filepath) => {
@@ -41,15 +40,15 @@ module.exports.size = (torrent) => {
     // var bignum = new Uint64BE(size);
     // return bignum.toBuffer();
 
-    // var bignum = new BN(size, 10);
-    // return(bignum.toBuffer(1, 8));
+    var bignum = new BN(size, 10);
+    return(bignum.toBuffer(1, 8));
 
-    return bignum.toBuffer(size, {size: 8});
+    //return bignum.toBuffer(size, {size: 8});
 };
 
 module.exports.pieceLen = (torrent, pieceIndex) => {
-    //var totalLength = new Uint64BE(this.size(torrent)).toNumber();
-    var totalLength = bignum.fromBuffer(this.size(torrent)).toNumber();
+    var totalLength = new Uint64BE(this.size(torrent)).toNumber();
+    //var totalLength = bignum.fromBuffer(this.size(torrent)).toNumber();
     var pieceLength = torrent.info['piece length'];
 
     var lastPieceLength = totalLength % pieceLength;

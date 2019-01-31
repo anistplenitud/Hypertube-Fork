@@ -3,6 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 require_once('setup.php');
 session_start();
+error_reporting(E_ALL);
 	if (!isset($_SESSION['id'])) {
 		header ('Location: ./');
 	}
@@ -16,6 +17,7 @@ session_start();
 	$picturep = $data['picture']; 
 
  ?>
+
 <!DOCTYPE html>
 <html>
 <title></title>
@@ -116,7 +118,6 @@ session_start();
 	<div id="google_translate_element"></div>
 <div class="topnav" id="myTopnav">
 		<a class="navbar-brand" href="#">
-<<<<<<< HEAD
     		<img src="<?php echo $picturep?>" alt="profile picture" style="width:40px;">
 		</a>
 		<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -126,17 +127,7 @@ session_start();
         	<a class="dropdown-item" href="./profile.php">My Profile</a>
         	<a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
     	</div>
-=======
-			<img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
-		</a>
-		<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-			<?php echo $_SESSION['first_name']?>
-		</a>
-		<div class="dropdown-menu">
-			<a class="dropdown-item" href="#">My Profile</a>
-			<a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
-		</div>
->>>>>>> 7931642719d2950418b9a8442b581630789048d3
+
 		<center>
 		<div class="topnav-centered">
 			<a href="/Hypertube/home.php"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
@@ -146,19 +137,28 @@ session_start();
 	<br>
 	<div id="result" class="card border-info mb-3">		
 	</div>
+	    <div id="main_body">
+    </div>
+    <div id="movie_result"></div>
+    <div id="comment">
+    	
+    </div>
+
+    <script type="text/javascript" src="/Hypertube/NODE/public/js/download.js"></script>
 </body>
 </html>
 <script src="showMoviehelpers.js"></script>
 <script type="text/javascript">
 
 	var val = "<?php echo $_GET['id'] ?>";
-	var date = "<?php echo $_GET['date'] ?>"
+	var date = "<?php echo $_GET['date'] ?>";
 	console.log(val);
 	if (val)
 	{
 		
 		$(document).ready(function()
 		{
+
 			var arr = [];
 			arr.push({'id':val ,'release_date':date});
 
@@ -246,8 +246,10 @@ session_start();
 									<br>
 									 <center>
 		<div class="col">
+		<div id="target">
+		</div>
 			<button class="btn"><i class="fa fa-download"></i> Download</button> 
-			<button class="btn" onclick="downloadQuery('`+result.Title+` `+result.Year+`')"><i class="fa fa-tv"></i> Stream</button>
+			<button id='importantStream' class="btn" onclick="downloadQuery('`+result.Title+` `+result.Year+`')"><i class="fa fa-tv"></i> Stream</button>
 		</div>
 	</center>
 								</div>
@@ -273,7 +275,11 @@ session_start();
 						</div>
 					</div>`;
 
-				$('#result').append(content).hide().fadeIn(); 			
+				$('#result').append(content).hide().fadeIn(); 
+				$('commenting_frame').src = "./video.php?torrent_id=" +val+"&title="+window.title;
+				var src_c = "./video.php?torrent_id=" +val+"&title="+window.title;
+				var target = document.getElementById('comment');
+				target.innerHTML = '<iframe id="commenting_frame" frameborder="0" scrolling="yes" width="100%" height="198" src="'+src_c+'" name="imgbox" id="imgbox"><p>iframes are not supported by your browser.</p></iframe>';
 			});
 
 	
@@ -365,77 +371,6 @@ session_start();
 				console.log("something went wrong");
 		});
 	}
-	
-	function downloadQuery(movie, status = true) 
-	{
-
-		isWatched(); // Hijacking Dante's function to call the viewing function since this function is fired when the button is pressed
-		var movieName = movie;//(movie != null && movie != 'undefined') ? document.getElementById('movie_name').value : movie;
-		var xhr = new XMLHttpRequest();
-
-		if (status == true) {
-			var address = "http://localhost:3000/startDownload/" + movieName;
-		}
-		else {
-			var address = "http://localhost:3000/checkStatus";
-		}
-
-		xhr.open('GET', address, true);
-
-		xhr.onreadystatechange = function () 
-		{
-			if (xhr.readyState == 4 && xhr.status == 200) {
-				if (xhr.responseText != 'failed' && xhr.responseText != 'Pending') 
-				{
-
-					var target = document.getElementById('result');
-					target.innerHTML = '<button id="startStream_button" value="' + xhr.responseText + '" onclick="startStreamQuery(this)">Start Stream</button></a>';
-					ready = true;
-					console.log(xhr.responseText);
-
-				}
-				else if (xhr.responseText == 'failed') 
-				{
-					var target = document.getElementById('result');
-					target.innerHTML = "<h2>" + xhr.responseText + "</h2>";
-				}
-				else 
-				{
-					var target = document.getElementById('result');
-					target.innerHTML = "<h2>" + xhr.responseText + "</h2>";
-					downloadQuery(movieName, false);
-				}
-			}
-		}
-
-		xhr.send();
-	}
-
-var ready = false;
-
-function startStreamQuery(button)
-{
-	var movieName = button.value;
-	var xhr = new XMLHttpRequest();
-	var address = "http://localhost:3000/startStream/" + movieName;
-
-	xhr.open('GET', address, true);
-
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState == 4 && xhr.status == 200) {
-			//window.location = 'http://localhost:3000/watchVideo';
-			window.location = "http://localhost:8080/Hypertube/video.php?torrent_id=" +val+"&title="+window.title;
-		}
-	}
-
-	xhr.send();
-}
-
-if (ready == true)
-{
-	var startStream_button = document.getElementById('startStream_button');
-	startStream_button.addEventListener('click', switchPage); 
-}
 	</script>
 
 	<script type="text/javascript">

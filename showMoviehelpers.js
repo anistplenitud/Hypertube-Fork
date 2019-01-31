@@ -17,7 +17,8 @@ async function getMovieDataPromise(result, pageType)
 		result[i].imdbURL = "https://www.imdb.com/title/"+ result[i].imdbID +"/";
 		result[i].imdbRating = Number(moviedata.imdbRating);									
 		result[i].Poster = moviedata.Poster;
-		result[i].genres = moviedata.Genre;
+		result[i].genres = JSON.stringify(result[i].genres);// moviedata.Genre;
+		//console.log();
 		result[i].Title = moviedata.Title;				
 
 		if (pageType == "info")

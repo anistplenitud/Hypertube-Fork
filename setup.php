@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 
 $host = "localhost";
 $username = "root";
-$password = "codecrazy";
+$password = "bitnami";
 
 $table = "users";
 $dbname = "hypertube";

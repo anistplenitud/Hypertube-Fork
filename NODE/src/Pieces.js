@@ -49,7 +49,7 @@ class Pieces {
         
         var percent = Math.floor(downloaded/total * 100);
 
-        if (percent == 3 && this.runOnce == 0)
+        if (percent == 2 && this.runOnce == 0)
         {
             emitter.emit('ready', percent);
             this.runOnce = 1;

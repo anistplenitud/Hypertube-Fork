@@ -50,15 +50,13 @@ function queuePrioritySort(queue, torrentInfo) {
     
     files.sort((a, b) => a.length - b.length);
 
-	for (var fileIndex = 0; fileIndex < files.length; fileIndex++)
-    {
+	for (var fileIndex = 0; fileIndex < files.length; fileIndex++) {
         //Begin and End piece that make up the File.
         var beginPiece = Math.floor(files[fileIndex].offset / torrentInfo.pieceLength);
         var endPiece = Math.ceil((files[fileIndex].length + files[fileIndex].offset) / torrentInfo.pieceLength);
         
         //The video being the Biggest file in the list, will be sorted to the last position.
-        if (fileIndex == files.length - 1)
-        {
+        if (fileIndex == files.length - 1) {
             //The Beginning of The video file.
             if (!queuedPieces.includes(beginPiece))
                 queue.queue(beginPiece);
@@ -69,12 +67,9 @@ function queuePrioritySort(queue, torrentInfo) {
 
             break;
         }
-        else
-        {
-            for(var pieceIndex = beginPiece; pieceIndex < endPiece; pieceIndex++)
-            {
-                if (!queuedPieces.includes(pieceIndex))
-                {
+        else {
+            for(var pieceIndex = beginPiece; pieceIndex < endPiece; pieceIndex++) {
+                if (!queuedPieces.includes(pieceIndex)) {
                     queue.queue(pieceIndex);
                     queuedPieces.push(pieceIndex);
                 }

@@ -9,7 +9,6 @@ session_start();
 		header ('Location: ./');
 	}
 
-<<<<<<< HEAD
 	$db->exec("USE hypertube");
 	$query = $db->prepare("SELECT * FROM users WHERE id = :id");
 	$query->bindParam(":id", $_SESSION['id']);
@@ -17,8 +16,7 @@ session_start();
 	$data = $query->fetch(PDO::FETCH_ASSOC);
 	$username = $data['username'];
 	$profilep = $data['picture'];
-=======
->>>>>>> 7931642719d2950418b9a8442b581630789048d3
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -138,7 +136,7 @@ session_start();
 	<div id="google_translate_element"></div>
 	<div class="topnav" id="myTopnav">
 		<a class="navbar-brand" href="#">
-<<<<<<< HEAD
+
     		<img src="<?php echo $profilep ?>" alt="profile picture" style="width:40px;">
 		</a>
 		<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
@@ -148,17 +146,7 @@ session_start();
         	<a class="dropdown-item" href="./profile.php">My Profile</a>
         	<a class="dropdown-item" href="./logout.php">Logout</a>
     	</div>
-=======
-			<img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
-		</a>
-		<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-			<?php echo $_SESSION['first_name']?>
-		</a>
-		<div class="dropdown-menu">
-			<a class="dropdown-item" href="#">My Profile</a>
-			<a class="dropdown-item" href="./logout.php">Logout</a>
-		</div>
->>>>>>> 7931642719d2950418b9a8442b581630789048d3
+
 		<center>
 		<div class="topnav-centered">
 			<a href="#"><img src="logo.png" alt="logo" height="70%" width="70%"></a>

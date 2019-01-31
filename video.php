@@ -1,5 +1,5 @@
 <?php
-<<<<<<< HEAD
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 require_once("setup.php");
@@ -12,26 +12,14 @@ if (!isset($_SESSION['id'])) {
 
 $torrent_id = $_GET['torrent_id'];
 $movie_title = $_GET['title'];
+
 $db->exec("USE hypertube");
 $query = $db->prepare("SELECT * FROM users WHERE id = :id");
 $query->bindParam(":id", $_SESSION['id']);
 $query->execute();
 $data = $query->fetch(PDO::FETCH_ASSOC);
 $username = $data['username'];
-=======
-  session_start();
 
-  if (!isset($_SESSION['id'])) {
-	header ('Location: ./');
-  }
-  require_once('setup.php');
-
-  $torrent_id = $_GET['torrent_id'];
-  $movie_title = $_GET['title'];
-
-  
-
->>>>>>> 7931642719d2950418b9a8442b581630789048d3
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -291,53 +279,11 @@ $username = $data['username'];
 	</style>
 </head>
 <body>
-<div id="google_translate_element"></div>
-<div class="topnav" id="myTopnav">
-<<<<<<< HEAD
-    <a class="navbar-brand" href="#">
-        <img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
-    </a>
-    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-          <?php echo $_SESSION['first_name']?>
-        </a>
-    <div class="dropdown-menu">
-          <a class="dropdown-item" href="./profile.php">My Profile</a>
-          <a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
-      </div>
-    <center>
-    <div class="topnav-centered">
-      <a href="/Hypertube/home.php"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
-    </div>
-    </center>
-=======
-	<a class="navbar-brand" href="#">
-		<img src="<?php echo $_SESSION['picture']?>" alt="profile picture" style="width:40px;">
-	</a>
-	<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-		  <?php echo $_SESSION['first_name']?>
-		</a>
-	<div class="dropdown-menu">
-		  <a class="dropdown-item" href="#">My Profile</a>
-		  <a class="dropdown-item" href="/Hypertube/logout.php">Logout</a>
-	  </div>
-	<center>
-	<div class="topnav-centered">
-	  <a href="/Hypertube/home.php"><img src="logo.png" alt="logo" height="70%" width="70%"></a>
-	</div>
-	</center>
->>>>>>> 7931642719d2950418b9a8442b581630789048d3
-</div>
 
-	<br />
-	<center><h3 style="color: white;"><?php echo $movie_title ?></h3></center>
 
-	<center>
-		<video width="100%" height="100%" controls loop>
-			<source src="http://localhost:3000/video" type="video/mp4">
-			<!-- source src="movie.ogg" type="video/ogg" -->
-			Your browser does not support the video tag.
-		</video>
-	</center>
+
+
+
 
 	<!--a href=""><i class="fa fa-eye fa-fw" style="color: white;"></i><a-->
 	<div class="container-fluid">
@@ -405,6 +351,7 @@ $username = $data['username'];
 	</div>
 </div>
 <script>
+
 function showUser(str) {
 	if (str == "") {
 		document.getElementById("txtHint").innerHTML = "";
