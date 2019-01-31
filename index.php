@@ -175,6 +175,14 @@ input[type=submit]:hover {
   display: none;
 }
 
+select
+{
+	width: -webkit-fill-available;
+	width: -moz-available;
+  text-align: center;
+  text-align-last: center;
+}
+
 /* bottom container */
 .bottom-container {
   text-align: center;

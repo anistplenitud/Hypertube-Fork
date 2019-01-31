@@ -213,7 +213,8 @@ body {
 
 select
 {
-  width: -webkit-fill-available;
+	width: -webkit-fill-available;
+	width: -moz-available;
   text-align: center;
   text-align-last: center;
 }

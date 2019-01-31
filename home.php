@@ -77,7 +77,7 @@ session_start();
 	}
 	.paginationjs .paginationjs-pages li:last-child
 	{
-		border: none;
+		
 	}
 	
 </style>
@@ -152,155 +152,128 @@ session_start();
 		</div>
 		</center>
 		<button class="dropdown-btn" style="float: right;">
-			<a href="#"><img src="https://img.icons8.com/color/260/search.png" alt="logo" height="12%" width="12%"></a>
+			<a href="#"><i class="fas fa-search"></i></a>
 		</button>
 		<div class="dropdown-container">
 			<div>
 				<div>
 					<center>
 						<br /><br /><br /><br />
-						<form>
+  						<form class="card mb-3" style="background-color: transparent; border: none;">
 							<?php
 								if (isset($_GET['search'])) {
-									echo'<input id="searchbar" class="fieldinput" type="text" name="search" value ='.$_GET['search'].' placeholder="Search for a movie">';
+									echo'<input id="searchbar" class="fieldinput" type="text" name="search" value ='.$_GET['search'].' placeholder="Search for a movie" style="margin: auto;">';
 								} else {
-									echo'<input id="searchbar" class="fieldinput" type="text" name="search" placeholder="Search for a movie">';
+									echo'<input id="searchbar" class="fieldinput" type="text" name="search" placeholder="Search for a movie" style="margin: auto;">';
 								}
 							?>
 						</form>
-						<br />
+						<br>
 					</center>
 					<center>
-						<div class="card border-info mb-3">
+						<div class="card border-secondary mb-3 form-group" id="sortandfiltercard" onmouseover="movieHoverIn(this)" onmouseout="movieHoverOut(this)">
 							<div class="card-body">
-			<!-- SORT  -->
-			<div id="sortForm" class="form-group" style="display: -webkit-inline-box;">
-				<h6>Sort</h6>
-				<div class="custom-control custom-radio">
-					<input type="radio" id="sortFormRadio1" name="sortFormRadio" class="custom-control-input sort fieldinput" value="" checked="">
-					<label class="custom-control-label" for="sortFormRadio1"> None </label>
-				</div>
-				<div class="custom-control custom-radio">
-					<input type="radio" id="sortFormRadio2" name="sortFormRadio" class="custom-control-input sort fieldinput" value="title"> <!-- value="&sort_by=original_title." -->
-					<label class="custom-control-label" for="sortFormRadio2"> Name </label>
-					<div id="sortFormName" class="">
-						<select id="sortFormNameSelector" class="fieldinput">
-							<option class="" value="asc" selected>A - Z</option> 
-							<option class="" value="desc">Z - A</option> <!-- Ascending -->
-						</select>						
-					</div>
-				</div>
-				<div class="custom-control custom-radio">
-					<input type="radio" id="sortFormRadio3" name="sortFormRadio" class="custom-control-input sort fieldinput" value="Year">
-					<!-- value="&sort_by=release_date." -->
-					<label class="custom-control-label" for="sortFormRadio3"> Year </label>
-					<div id="sortFormYear" class="fieldinput">
-						<select id="sortFormYearSelector">
-							<option class="" value="asc" >Oldest - Newest</option> <!-- Ascending -->
-							<option class="" value="desc" selected>Newest - Oldest</option> <!-- Descending release_date.desc primary_release_date.desc--> 
-						</select>						
-					</div>
-				</div>
-					<div class="custom-control custom-radio">
-					<input type="radio" id="sortFormRadio4" name="sortFormRadio" class="custom-control-input sort fieldinput" value="imdbRating">
-					<label class="custom-control-label" for="sortFormRadio4"> Rating </label>
-					<div id="sortFormRating" class="">
-						<select id="sortFormRatingSelector" class="fieldinput">
-							<option class="" value="desc" selected>Highest - Lowest</option> <!-- Descending --> <!-- This I will have to make my own -->
-							<option class="" value="asc">Lowest - Highest</option> <!-- Ascending -->
-						</select>						
-					</div>
-				</div>
-				<div class="custom-control custom-radio">
-					<input type="radio" id="sortFormRadio5" name="sortFormRadio" class="custom-control-input sort fieldinput" value="genre_ids">
-					<label class="custom-control-label" for="sortFormRadio5"> Genre </label>
-					<div id="sortFormGenre" class="">
-						<select id="sortFormGenreSelector" class="fieldinput">
-							<option class="" value="28" selected>Action</option> <!-- 28 -->
-							<option class="" value="12">Adventure</option> <!-- 12 -->
-							<option class="" value="16">Animation</option> <!-- 16 -->
-							<option class="" value="35">Comedy</option> <!-- 35 -->
-							<option class="" value="80">Crime</option> <!-- 80 -->
-							<option class="" value="99">Documentary</option> <!-- 99 -->
-							<option class="" value="18">Drama</option> <!-- 18 -->
-							<option class="" value="10751">Family</option> <!-- 10751 -->
-							<option class="" value="14">Fantasy</option> <!-- 14 -->
-							<option class="" value="36">History</option> <!-- 36 -->
-							<option class="" value="27">Horror</option> <!-- 27 -->
-							<option class="" value="10402">Music</option> <!-- 10402 -->
-							<option class="" value="9648">Mystery</option> <!-- 9648 -->
-							<option class="" value="10749">Romance</option> <!-- 10749 -->
-							<option class="" value="878">Sci-Fi</option> <!-- 878 -->	 
-							<option class="" value="53">Thriller</option> <!-- 53 -->
-							<option class="" value="10752">War</option> <!-- 10752 -->
-							<option class="" value="37">Western</option> <!-- 37 -->
-						</select>							
-					</div>
-				</div>
-			</div>
-			<br>
-			<!-- Filter  -->
-			<div id="filterForm" class="form-group" style="display: -webkit-inline-box;">
-				<h6>Filter</h6>
-				<div class="custom-control custom-radio">
-					<input type="radio" id="filterFormRadio1" name="filterFormRadio" class="custom-control-input filter fieldinput" value="" checked="">
-					<label class="custom-control-label" for="filterFormRadio1"> None </label>
-				</div>
-				<div class="custom-control custom-radio">
-					<input type="radio" id="filterFormRadio2" name="filterFormRadio" class="custom-control-input filter fieldinput" value="Year">
-					<label class="custom-control-label" for="filterFormRadio2"> Year </label>
-					<div class="">
-						<select id="filterFormYearSelectorFrom" class="fieldinput">
-						</select> 
-						to 
-						<select id="filterFormYearSelectorTo" class="fieldinput">
-						</select>
-					</div>
-				</div>
-					<div class="custom-control custom-radio">
-					<input type="radio" id="filterFormRadio3" name="filterFormRadio" class="custom-control-input filter fieldinput" value="imdbRating">
-					<label class="custom-control-label" for="filterFormRadio3"> Rating </label>
-					<div class="">
-						<select id="filterFormRatingSelectorFrom" class="fieldinput">
-						</select>
-						to
-						<select id="filterFormRatingSelectorTo" class="fieldinput">
-						</select>
-					</div>
-				</div>
-				<div class="custom-control custom-radio">
-					<input type="radio" id="filterFormRadio4" name="filterFormRadio" class="custom-control-input filter fieldinput" value="genre_ids">
-					<label class="custom-control-label" for="filterFormRadio4"> Genre </label>
-					<div class="">
-						<select id="filterFormGenreSelector" class="fieldinput">
-							<option class="" value="28" selected>Action</option> <!-- 28 -->
-							<option class="" value="12">Adventure</option> <!-- 12 -->
-							<option class="" value="16">Animation</option> <!-- 16 -->
-							<option class="" value="35">Comedy</option> <!-- 35 -->
-							<option class="" value="80">Crime</option> <!-- 80 -->
-							<option class="" value="99">Documentary</option> <!-- 99 -->
-							<option class="" value="18">Drama</option> <!-- 18 -->
-							<option class="" value="10751">Family</option> <!-- 10751 -->
-							<option class="" value="14">Fantasy</option> <!-- 14 -->
-							<option class="" value="36">History</option> <!-- 36 -->
-							<option class="" value="27">Horror</option> <!-- 27 -->
-							<option class="" value="10402">Music</option> <!-- 10402 -->
-							<option class="" value="9648">Mystery</option> <!-- 9648 -->
-							<option class="" value="10749">Romance</option> <!-- 10749 -->
-							<option class="" value="878">Sci-Fi</option> <!-- 878 -->	 
-							<option class="" value="53">Thriller</option> <!-- 53 -->
-							<option class="" value="10752">War</option> <!-- 10752 -->
-							<option class="" value="37">Western</option> <!-- 37 -->
-						</select>						
-					</div>
-				</div>
-			</div>
-		</div>
-
-						<br />
+								<!-- SORT  -->
+								<h6>Sort</h6>
+								<div id="sortForm" class="form-group row">
+									<div class="custom-control custom-radio col-sm">
+										<input type="radio" id="sortFormRadio1" name="sortFormRadio" class="custom-control-input sort fieldinput" value="" checked="">
+										<label class="custom-control-label" for="sortFormRadio1"> None </label>
+									</div>
+									<div class="custom-control custom-radio col-sm">
+										<input type="radio" id="sortFormRadio2" name="sortFormRadio" class="custom-control-input sort fieldinput" value="title"> <!-- value="&sort_by=original_title." -->
+										<label class="custom-control-label" for="sortFormRadio2"> Name </label>
+										<div id="sortFormName" class="">
+											<select id="sortFormNameSelector" class="fieldinput">
+												<option class="" value="asc" selected>A - Z</option> 
+												<option class="" value="desc">Z - A</option> <!-- Ascending -->
+											</select>						
+										</div>
+									</div>
+									<div class="custom-control custom-radio col-sm">
+										<input type="radio" id="sortFormRadio3" name="sortFormRadio" class="custom-control-input sort fieldinput" value="Year">
+										<!-- value="&sort_by=release_date." -->
+										<label class="custom-control-label" for="sortFormRadio3"> Year </label>
+										<div id="sortFormYear" class="fieldinput">
+											<select id="sortFormYearSelector">
+												<option class="" value="asc" >Oldest - Newest</option> <!-- Ascending -->
+												<option class="" value="desc" selected>Newest - Oldest</option> <!-- Descending release_date.desc primary_release_date.desc--> 
+											</select>						
+										</div>
+									</div>
+									<div class="custom-control custom-radio col-sm">
+										<input type="radio" id="sortFormRadio4" name="sortFormRadio" class="custom-control-input sort fieldinput" value="imdbRating">
+										<label class="custom-control-label" for="sortFormRadio4"> Rating </label>
+										<div id="sortFormRating" class="">
+											<select id="sortFormRatingSelector" class="fieldinput">
+												<option class="" value="desc" selected>Highest - Lowest</option> <!-- Descending --> <!-- This I will have to make my own -->
+												<option class="" value="asc">Lowest - Highest</option> <!-- Ascending -->
+											</select>						
+										</div>
+									</div>
+								</div>
+								<br>
+								<!-- Filter  -->
+								<h6>Filter</h6>
+								<div id="filterForm" class="form-group row">
+									<div class="custom-control custom-radio col-sm">
+										<input type="radio" id="filterFormRadio1" name="filterFormRadio" class="custom-control-input filter fieldinput" value="" checked="">
+										<label class="custom-control-label" for="filterFormRadio1"> None </label>
+									</div>
+									<div class="custom-control custom-radio col-sm">
+										<input type="radio" id="filterFormRadio2" name="filterFormRadio" class="custom-control-input filter fieldinput" value="Year">
+										<label class="custom-control-label" for="filterFormRadio2"> Year </label>
+										<div class="">
+											<select id="filterFormYearSelectorFrom" class="fieldinput">
+											</select> 
+											to 
+											<select id="filterFormYearSelectorTo" class="fieldinput">
+											</select>
+										</div>
+									</div>
+									<div class="custom-control custom-radio col-sm">
+										<input type="radio" id="filterFormRadio3" name="filterFormRadio" class="custom-control-input filter fieldinput" value="imdbRating">
+										<label class="custom-control-label" for="filterFormRadio3"> Rating </label>
+										<div class="">
+											<select id="filterFormRatingSelectorFrom" class="fieldinput">
+											</select>
+											to
+											<select id="filterFormRatingSelectorTo" class="fieldinput">
+											</select>
+										</div>
+									</div>
+									<div class="custom-control custom-radio col-sm">
+										<input type="radio" id="filterFormRadio4" name="filterFormRadio" class="custom-control-input filter fieldinput" value="genre_ids">
+										<label class="custom-control-label" for="filterFormRadio4"> Genre </label>
+										<div class="">
+											<select id="filterFormGenreSelector" class="fieldinput">
+												<option class="" value="28" selected>Action</option> <!-- 28 -->
+												<option class="" value="12">Adventure</option> <!-- 12 -->
+												<option class="" value="16">Animation</option> <!-- 16 -->
+												<option class="" value="35">Comedy</option> <!-- 35 -->
+												<option class="" value="80">Crime</option> <!-- 80 -->
+												<option class="" value="99">Documentary</option> <!-- 99 -->
+												<option class="" value="18">Drama</option> <!-- 18 -->
+												<option class="" value="10751">Family</option> <!-- 10751 -->
+												<option class="" value="14">Fantasy</option> <!-- 14 -->
+												<option class="" value="36">History</option> <!-- 36 -->
+												<option class="" value="27">Horror</option> <!-- 27 -->
+												<option class="" value="10402">Music</option> <!-- 10402 -->
+												<option class="" value="9648">Mystery</option> <!-- 9648 -->
+												<option class="" value="10749">Romance</option> <!-- 10749 -->
+												<option class="" value="878">Sci-Fi</option> <!-- 878 -->	 
+												<option class="" value="53">Thriller</option> <!-- 53 -->
+												<option class="" value="10752">War</option> <!-- 10752 -->
+												<option class="" value="37">Western</option> <!-- 37 -->
+											</select>						
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</center>
 				</div>
-			</div>
+  			</div>
 		</div>
 	</div>
 
